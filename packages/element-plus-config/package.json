@@ -1,0 +1,19 @@
+{
+  "name": "@config-ui/element-plus-config",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "element-plus": "^2.9.7"
+  },
+  "devDependencies": {
+    "unplugin-vue-components": "^28.4.1",
+    "unplugin-auto-import": "^19.1.1"
+  }
+}
