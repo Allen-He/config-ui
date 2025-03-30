@@ -1,3 +1,6 @@
-import HelloWorld from './components/HelloWorld/HelloWorld.vue'
+import defaults from './defaults'
 
-export { HelloWorld }
+export * from './components/HelloWorld'
+export * from './components/ConfigForm'
+
+export default defaults

@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "element-plus": "^2.9.7"
+    "element-plus": "^2.9.7",
+    "vue-component-type-helpers": "^2.2.8"
   },
   "devDependencies": {
     "unplugin-vue-components": "^28.4.1",

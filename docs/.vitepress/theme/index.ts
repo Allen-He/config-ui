@@ -3,6 +3,9 @@ import { h } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
+import 'element-plus/dist/index.css'
+
+import DemoWrap from '../../_core/DemoWrap.vue'
 
 export default {
   extends: DefaultTheme,
@@ -12,6 +15,13 @@ export default {
     })
   },
   enhanceApp({ app, router, siteData }) {
-    // ...
-  }
+    app.component('DemoWrap', DemoWrap)
+
+    // client only
+    if (!import.meta.env.SSR) {
+      import('element-plus').then((ElementPlus) => {
+        app.use(ElementPlus)
+      })
+    }
+  },
 } satisfies Theme
