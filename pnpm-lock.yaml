@@ -115,6 +115,9 @@ importers:
       element-plus:
         specifier: ^2.9.7
         version: 2.9.7(vue@3.5.13(typescript@5.8.2))
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
       vue-component-type-helpers:
         specifier: ^2.2.8
         version: 2.2.8

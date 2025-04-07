@@ -1,6 +1,6 @@
 import { FormatEmits } from '@config-ui/shared'
 import {
-  ElRow,
+  // ElRow,
   ElCol,
   ElInput,
   ElSelect,
@@ -10,9 +10,24 @@ import {
   ElFormItem,
   ElSwitch,
   ElSegmented,
+  ElCheckbox,
+  ElCheckboxGroup,
+  ElColorPicker,
+  ElDatePicker,
+  ElInputNumber,
+  ElInputTag,
+  ElMention,
+  ElRadio,
+  ElRate,
+  ElSlider,
+  ElTimePicker,
+  ElTimeSelect,
+  ElTransfer,
+  ElTreeSelect,
+  ElUpload,
 } from 'element-plus'
 import { ValueOf } from 'element-plus/es/components/table/src/table-column/defaults.mjs'
-import { Component, Slot, Slots } from 'vue'
+import { Component, Slots } from 'vue'
 import type { ComponentProps, ComponentEmit, ComponentSlots } from 'vue-component-type-helpers'
 
 export interface FormItemRawConfig<T = any> {
@@ -22,53 +37,138 @@ export interface FormItemRawConfig<T = any> {
 }
 
 export interface ComponentRawConfigMap<T = any> {
-  // row: {
-  //   component: 'row'
+  // ElRow: {
+  //   component: 'ElRow'
   //   componentProps?: ComponentProps<typeof ElRow>
   //   componentSlots?: ComponentSlots<typeof ElRow>
   //   children?: ValueOf<Exclude<ComponentRawConfigMap<T>, 'row'>>[]
   // }
-  // col: {
-  //   component: 'col'
+  // ElCol: {
+  //   component: 'ElCol'
   //   componentProps?: ComponentProps<typeof ElCol>
   //   componentSlots?: ComponentSlots<typeof ElCol>
   //   children?: ValueOf<Exclude<ComponentRawConfigMap<T>, 'row' | 'col'>>[]
   // }
-  input: {
-    component: 'input'
-    componentProps?: ComponentProps<typeof ElInput> & FormatEmits<ComponentEmit<typeof ElInput>>
-    componentSlots?: ComponentSlots<typeof ElInput>
-  } & FormItemRawConfig<T>
-  select: {
-    component: 'select'
-    componentProps?: ComponentProps<typeof ElSelect> & FormatEmits<ComponentEmit<typeof ElSelect>>
-    componentSlots?: ComponentSlots<typeof ElSelect>
-  } & FormItemRawConfig<T>
-  'select-v2': {
-    component: 'select-v2'
-    componentProps?: ComponentProps<typeof ElSelectV2> &
-      FormatEmits<ComponentEmit<typeof ElSelectV2>>
-    componentSlots?: ComponentSlots<typeof ElSelectV2>
-  } & FormItemRawConfig<T>
-  cascader: {
-    component: 'cascader'
-    componentProps?: ComponentProps<typeof ElCascader> &
-      FormatEmits<ComponentEmit<typeof ElCascader>>
-    componentSlots?: ComponentSlots<typeof ElCascader>
-  } & FormItemRawConfig<T>
-  autocomplete: {
-    component: 'autocomplete'
+  ElAutocomplete: {
+    component: 'ElAutocomplete'
     componentProps?: ComponentProps<typeof ElAutocomplete> &
       FormatEmits<ComponentEmit<typeof ElAutocomplete>>
     componentSlots?: ComponentSlots<typeof ElAutocomplete>
   } & FormItemRawConfig<T>
-  switch: {
-    component: 'switch'
+  ElCascader: {
+    component: 'ElCascader'
+    componentProps?: ComponentProps<typeof ElCascader> &
+      FormatEmits<ComponentEmit<typeof ElCascader>>
+    componentSlots?: ComponentSlots<typeof ElCascader>
+  } & FormItemRawConfig<T>
+  ElCheckbox: {
+    component: 'ElCheckbox'
+    componentProps?: ComponentProps<typeof ElCheckbox> &
+      FormatEmits<ComponentEmit<typeof ElCheckbox>>
+    componentSlots?: ComponentSlots<typeof ElCheckbox>
+  } & FormItemRawConfig<T>
+  ElCheckboxGroup: {
+    component: 'ElCheckboxGroup'
+    componentProps?: ComponentProps<typeof ElCheckboxGroup> &
+      FormatEmits<ComponentEmit<typeof ElCheckboxGroup>>
+    componentSlots?: ComponentSlots<typeof ElCheckboxGroup>
+  } & FormItemRawConfig<T>
+  ElColorPicker: {
+    component: 'ElColorPicker'
+    componentProps?: ComponentProps<typeof ElColorPicker> &
+      FormatEmits<ComponentEmit<typeof ElColorPicker>>
+    componentSlots?: ComponentSlots<typeof ElColorPicker>
+  } & FormItemRawConfig<T>
+  ElDatePicker: {
+    component: 'ElDatePicker'
+    componentProps?: ComponentProps<typeof ElDatePicker> &
+      FormatEmits<ComponentEmit<typeof ElDatePicker>>
+    componentSlots?: ComponentSlots<typeof ElDatePicker>
+  } & FormItemRawConfig<T>
+  ElInput: {
+    component: 'ElInput'
+    componentProps?: ComponentProps<typeof ElInput> & FormatEmits<ComponentEmit<typeof ElInput>>
+    componentSlots?: ComponentSlots<typeof ElInput>
+  } & FormItemRawConfig<T>
+  ElInputNumber: {
+    component: 'ElInputNumber'
+    componentProps?: ComponentProps<typeof ElInputNumber> &
+      FormatEmits<ComponentEmit<typeof ElInputNumber>>
+    componentSlots?: ComponentSlots<typeof ElInputNumber>
+  } & FormItemRawConfig<T>
+  ElInputTag: {
+    component: 'ElInputTag'
+    componentProps?: ComponentProps<typeof ElInputTag> &
+      FormatEmits<ComponentEmit<typeof ElInputTag>>
+    componentSlots?: ComponentSlots<typeof ElInputTag>
+  } & FormItemRawConfig<T>
+  ElMention: {
+    component: 'ElMention'
+    componentProps?: ComponentProps<typeof ElMention> & FormatEmits<ComponentEmit<typeof ElMention>>
+    componentSlots?: ComponentSlots<typeof ElMention>
+  } & FormItemRawConfig<T>
+  ElRadio: {
+    component: 'ElRadio'
+    componentProps?: ComponentProps<typeof ElRadio> & FormatEmits<ComponentEmit<typeof ElRadio>>
+    componentSlots?: ComponentSlots<typeof ElRadio>
+  } & FormItemRawConfig<T>
+  ElRate: {
+    component: 'ElRate'
+    componentProps?: ComponentProps<typeof ElRate> & FormatEmits<ComponentEmit<typeof ElRate>>
+    componentSlots?: ComponentSlots<typeof ElRate>
+  } & FormItemRawConfig<T>
+  ElSelect: {
+    component: 'ElSelect'
+    componentProps?: ComponentProps<typeof ElSelect> & FormatEmits<ComponentEmit<typeof ElSelect>>
+    componentSlots?: ComponentSlots<typeof ElSelect>
+  } & FormItemRawConfig<T>
+  ElSelectV2: {
+    component: 'ElSelectV2'
+    componentProps?: ComponentProps<typeof ElSelectV2> &
+      FormatEmits<ComponentEmit<typeof ElSelectV2>>
+    componentSlots?: ComponentSlots<typeof ElSelectV2>
+  } & FormItemRawConfig<T>
+  ElSlider: {
+    component: 'ElSlider'
+    componentProps?: ComponentProps<typeof ElSlider> & FormatEmits<ComponentEmit<typeof ElSlider>>
+    componentSlots?: ComponentSlots<typeof ElSlider>
+  } & FormItemRawConfig<T>
+  ElSwitch: {
+    component: 'ElSwitch'
     componentProps?: ComponentProps<typeof ElSwitch> & FormatEmits<ComponentEmit<typeof ElSwitch>>
     componentSlots?: ComponentSlots<typeof ElSwitch>
   } & FormItemRawConfig<T>
-  segmented: {
-    component: 'segmented'
+  ElTimePicker: {
+    component: 'ElTimePicker'
+    componentProps?: ComponentProps<typeof ElTimePicker> &
+      FormatEmits<ComponentEmit<typeof ElTimePicker>>
+    componentSlots?: ComponentSlots<typeof ElTimePicker>
+  } & FormItemRawConfig<T>
+  ElTimeSelect: {
+    component: 'ElTimeSelect'
+    componentProps?: ComponentProps<typeof ElTimeSelect> &
+      FormatEmits<ComponentEmit<typeof ElTimeSelect>>
+    componentSlots?: ComponentSlots<typeof ElTimeSelect>
+  } & FormItemRawConfig<T>
+  ElTransfer: {
+    component: 'ElTransfer'
+    componentProps?: ComponentProps<typeof ElTransfer> &
+      FormatEmits<ComponentEmit<typeof ElTransfer>>
+    componentSlots?: ComponentSlots<typeof ElTransfer>
+  } & FormItemRawConfig<T>
+  ElTreeSelect: {
+    component: 'ElTreeSelect'
+    componentProps?: ComponentProps<typeof ElTreeSelect> &
+      FormatEmits<ComponentEmit<typeof ElTreeSelect>>
+    componentSlots?: ComponentSlots<typeof ElTreeSelect>
+  } & FormItemRawConfig<T>
+  ElUpload: {
+    component: 'ElUpload'
+    componentProps?: ComponentProps<typeof ElUpload> & FormatEmits<ComponentEmit<typeof ElUpload>>
+    componentSlots?: ComponentSlots<typeof ElUpload>
+  } & FormItemRawConfig<T>
+  ElSegmented: {
+    component: 'ElSegmented'
     componentProps?: ComponentProps<typeof ElSegmented> &
       FormatEmits<ComponentEmit<typeof ElSegmented>>
     componentSlots?: ComponentSlots<typeof ElSegmented>
@@ -86,13 +186,28 @@ export type ConfigFormConfig<T = any> = (
 )[]
 
 export const COMPONENT_MAP: Record<keyof ComponentRawConfigMap, Component> = {
-  // row: ElRow,
-  // col: ElCol,
-  input: ElInput,
-  select: ElSelect,
-  'select-v2': ElSelectV2,
-  cascader: ElCascader,
-  autocomplete: ElAutocomplete,
-  switch: ElSwitch,
-  segmented: ElSegmented,
+  // ElRow,
+  // ElCol,
+  ElAutocomplete,
+  ElCascader,
+  ElCheckbox,
+  ElCheckboxGroup,
+  ElColorPicker,
+  ElDatePicker,
+  ElInput,
+  ElInputNumber,
+  ElInputTag,
+  ElMention,
+  ElRadio,
+  ElRate,
+  ElSelect,
+  ElSelectV2,
+  ElSlider,
+  ElSwitch,
+  ElTimePicker,
+  ElTimeSelect,
+  ElTransfer,
+  ElTreeSelect,
+  ElUpload,
+  ElSegmented,
 }

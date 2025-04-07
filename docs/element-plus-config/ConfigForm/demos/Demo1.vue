@@ -17,7 +17,7 @@ const formModel = ref({
   name: undefined,
   count: undefined,
   region: undefined,
-  delivery: undefined,
+  delivery: false,
   location: undefined,
   desc: undefined,
 })
@@ -29,7 +29,7 @@ const formConfig = ref<ConfigFormConfig<typeof formModel.value>>([
       prop: 'name',
       required: true,
     },
-    component: 'input',
+    component: 'ElInput',
     componentProps: {
       placeholder: 'Activity name',
     },
@@ -40,13 +40,16 @@ const formConfig = ref<ConfigFormConfig<typeof formModel.value>>([
       prop: 'region',
       required: true,
     },
-    component: 'select-v2',
+    component: 'ElSelectV2',
     componentProps: {
       placeholder: 'Activity zone',
       options: [
-        { label: 'Zone one', value: 'shanghai' }, // 修正拼写错误: lable -> label
-        { label: 'Zone two', value: 'beijing' }, // 修正拼写错误: lable -> label
+        { label: 'Zone one', value: 'shanghai' },
+        { label: 'Zone two', value: 'beijing' },
       ],
+      onChange: (val: string) => {
+        console.log('Activity zone', val)
+      },
     },
   },
   {
@@ -55,10 +58,13 @@ const formConfig = ref<ConfigFormConfig<typeof formModel.value>>([
       prop: 'count',
       required: true,
     },
-    component: 'select-v2',
+    component: 'ElSelectV2',
     componentProps: {
-      placeholder: 'Activity count', // 添加逗号
+      placeholder: 'Activity count',
       options: options,
+      onChange: (val: string) => {
+        console.log('Activity count', val)
+      },
     },
   },
   {
@@ -67,7 +73,7 @@ const formConfig = ref<ConfigFormConfig<typeof formModel.value>>([
       prop: 'delivery',
       required: true,
     },
-    component: 'switch',
+    component: 'ElSwitch',
     componentProps: {},
   },
   {
@@ -76,7 +82,7 @@ const formConfig = ref<ConfigFormConfig<typeof formModel.value>>([
       prop: 'location',
       required: true,
     },
-    component: 'segmented',
+    component: 'ElSegmented',
     componentProps: {
       options: locationOptions,
     },
@@ -86,7 +92,7 @@ const formConfig = ref<ConfigFormConfig<typeof formModel.value>>([
       label: 'Activity desc',
       prop: 'desc',
     },
-    component: 'input',
+    component: 'ElInput',
     componentProps: {
       type: 'textarea',
     },
