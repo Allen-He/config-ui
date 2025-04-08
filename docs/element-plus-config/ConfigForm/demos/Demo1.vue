@@ -22,7 +22,7 @@ const formModel = ref({
   desc: undefined,
 })
 
-const formConfig = ref<ConfigFormConfig<typeof formModel.value>>([
+const formConfig = ref<ConfigFormConfig<typeof formModel.value>[]>([
   {
     formItemProps: {
       label: 'Activity name',

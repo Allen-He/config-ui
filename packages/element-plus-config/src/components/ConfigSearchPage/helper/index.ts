@@ -5,8 +5,7 @@ import { ElPagination, ElTable, ElTableColumn } from 'element-plus'
 import { format } from 'path'
 
 export type FilterConfig<T = any> = ConfigFormConfig<T> & {
-  field: string
-  default: unknown | (() => unknown)
+  default?: unknown | (() => unknown)
   onlyOutter?: boolean
   onlyInner?: boolean
 }
@@ -25,33 +24,40 @@ export type TablePaginationConfig = {
 }
 
 export type TableConfig<T = any> = {
-  tableProps?: ComponentProps<typeof ElTable> & FormatEmits<ComponentEmit<typeof ElTable>>
+  tableProps?: Exclude<ComponentProps<typeof ElTable>, 'data'> &
+    FormatEmits<ComponentEmit<typeof ElTable>>
   tableSlots?: ComponentSlots<typeof ElTable>
   tableColumnsConfig?: TableColumnConfig<T>[]
   tablePaginationConfig?: TablePaginationConfig
 }
 
+export type RequestFn<F = any, T = any> = (
+  params: F & { offset: number; limit: number },
+) => Promise<{ data: T[]; total: number }>
+
 export type SearchPageConfig<F = any, T = any> = {
   filterConfig?: FilterConfig<F>[]
   tableConfig?: TableConfig<T>
-  request?: (params: F & { offset: number; limit: number }) => Promise<{ data: T[]; total: number }>
+  request?: RequestFn<F, T>
 }
 
 export const getDefaultFilterModel = (filterConfig: FilterConfig[]) => {
   const filterModel: Record<string, unknown> = {}
 
   return filterConfig.reduce((acc, cur) => {
-    const { field, default: defaultValue } = cur
-    acc[field] = typeof defaultValue === 'function' ? defaultValue() : defaultValue
+    const { default: defaultValue, field, formItemProps } = cur
+    acc[field ?? formItemProps!.prop] =
+      typeof defaultValue === 'function' ? defaultValue() : defaultValue
     return acc
   }, filterModel)
 }
 
 export const getDefaultPaginationModel = (paginationConfig: TablePaginationConfig) => {
-  console.log('paginationConfig', paginationConfig)
+  const { paginationProps } = paginationConfig
+
   return {
-    current: 1,
-    pageSize: 10,
-    total: 0,
+    current: paginationProps?.currentPage ?? 1,
+    pageSize: paginationProps?.pageSize ?? 10,
+    total: paginationProps?.pageCount ?? 0,
   }
 }

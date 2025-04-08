@@ -1,4 +1,4 @@
-import { FormatEmits } from '@config-ui/shared'
+import { FormatEmits, UnionKey } from '@config-ui/shared'
 import {
   // ElRow,
   ElCol,
@@ -30,8 +30,10 @@ import { ValueOf } from 'element-plus/es/components/table/src/table-column/defau
 import { Component, Slots } from 'vue'
 import type { ComponentProps, ComponentEmit, ComponentSlots } from 'vue-component-type-helpers'
 
+// note: "field"的优先级比"formItemProps.prop"高，且两者不能同时为空
 export interface FormItemRawConfig<T = any> {
-  formItemProps: Exclude<ComponentProps<typeof ElFormItem>, 'prop'> & { prop: keyof T & string }
+  field?: UnionKey<T>
+  formItemProps?: Exclude<ComponentProps<typeof ElFormItem>, 'prop'> & { prop: UnionKey<T> }
   formItemSlots?: ComponentSlots<typeof ElFormItem>
   colProps?: ComponentProps<typeof ElCol>
 }
@@ -180,10 +182,9 @@ export type CustomComponentRawConfig<T = any> = {
   componentSlots?: Slots
 } & FormItemRawConfig<T>
 
-export type ConfigFormConfig<T = any> = (
+export type ConfigFormConfig<T = any> =
   | ValueOf<ComponentRawConfigMap<T>>
   | CustomComponentRawConfig<T>
-)[]
 
 export const COMPONENT_MAP: Record<keyof ComponentRawConfigMap, Component> = {
   // ElRow,

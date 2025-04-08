@@ -17,6 +17,9 @@ importers:
       '@config-ui/shared':
         specifier: workspace:*
         version: link:packages/shared
+      '@element-plus/icons-vue':
+        specifier: ^2.3.1
+        version: 2.3.1(vue@3.5.13(typescript@5.8.2))
       element-plus:
         specifier: ^2.9.7
         version: 2.9.7(vue@3.5.13(typescript@5.8.2))
@@ -122,6 +125,9 @@ importers:
         specifier: ^2.2.8
         version: 2.2.8
     devDependencies:
+      '@types/lodash-es':
+        specifier: ^4.17.12
+        version: 4.17.12
       unplugin-auto-import:
         specifier: ^19.1.1
         version: 19.1.1(@vueuse/core@12.8.2(typescript@5.8.2))

@@ -5,7 +5,7 @@ import type { ConfigFormConfig } from './helper'
 import type { FormInstance, FormProps, RowProps } from 'element-plus'
 
 const { formConfig, formRawConfig, rowConfig } = defineProps<{
-  formConfig: ConfigFormConfig
+  formConfig: ConfigFormConfig[]
   formRawConfig?: Partial<Exclude<FormProps, 'model'>>
   rowConfig?: Partial<RowProps>
 }>()
@@ -21,12 +21,12 @@ defineExpose({
 <template>
   <el-form ref="formRef" :model="formModel" v-bind="formRawConfig">
     <el-row v-bind="rowConfig">
-      <template v-for="item in formConfig" :key="item.formItemProps.prop">
+      <template v-for="item in formConfig" :key="item.field ?? item.formItemProps!.prop">
         <el-col v-bind="item.colProps">
           <el-form-item v-bind="item.formItemProps">
             <component
               v-if="!item.formItemSlots?.default"
-              v-model="formModel[item.formItemProps.prop]"
+              v-model="formModel[item.field ?? item.formItemProps!.prop]"
               :is="
                 typeof item.component === 'string' ? COMPONENT_MAP[item.component] : item.component
               "

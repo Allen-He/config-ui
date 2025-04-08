@@ -15,7 +15,7 @@
     "vue-component-type-helpers": "^2.2.8"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.21",
+    "@types/lodash-es": "^4.17.12",
     "unplugin-vue-components": "^28.4.1",
     "unplugin-auto-import": "^19.1.1"
   }

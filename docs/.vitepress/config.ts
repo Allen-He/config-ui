@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 const menus = [
   { text: 'HelloWorld', link: '/element-plus-config/HelloWorld' },
   { text: 'ConfigForm', link: '/element-plus-config/ConfigForm' },
+  { text: 'ConfigSearchPage', link: '/element-plus-config/ConfigSearchPage' },
 ]
 
 // https://vitepress.dev/reference/site-config

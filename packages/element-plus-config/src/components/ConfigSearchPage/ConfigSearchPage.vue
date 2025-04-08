@@ -1,36 +1,52 @@
 <script lang="ts" setup>
-import { FormInstance, TableInstance } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { computed, ref, useTemplateRef } from 'vue'
 import ConfigForm from '../ConfigForm/ConfigForm.vue'
 import { SearchPageConfig, getDefaultFilterModel, getDefaultPaginationModel } from './helper/index'
 import { omit } from 'lodash-es'
-import { ConfigFormConfig } from '../ConfigForm'
 import { useVisible } from '@config-ui/shared'
+import { ConfigFormConfig } from '../ConfigForm'
 
 const { filterConfig = [], tableConfig = {}, request } = defineProps<SearchPageConfig>()
 
 const filterModel = ref(getDefaultFilterModel(filterConfig))
 
-const filterOutterRef = useTemplateRef<FormInstance>('filterOutterRef')
+const filterOutterRef = useTemplateRef('filterOutterRef')
 const filterOutterConfig = computed(() =>
   filterConfig
     .filter((it) => !it.onlyInner)
-    .map<
-      ConfigFormConfig[number]
-    >((it) => omit(it, ['field', 'default', 'onlyInner', 'onlyOutter'])),
+    .map((it) => {
+      const res = omit(it, ['default', 'onlyInner', 'onlyOutter'])
+
+      return {
+        ...res,
+        colProps: {
+          span: 6,
+          ...res.colProps,
+        },
+      } as ConfigFormConfig
+    }),
 )
-const filterInnerRef = useTemplateRef<FormInstance>('filterInnerRef')
+const filterInnerRef = useTemplateRef('filterInnerRef')
 const filterInnerConfig = computed(() =>
   filterConfig
     .filter((it) => !it.onlyOutter)
-    .map<
-      ConfigFormConfig[number]
-    >((it) => omit(it, ['field', 'default', 'onlyInner', 'onlyOutter'])),
+    .map((it) => {
+      const res = omit(it, ['default', 'onlyInner', 'onlyOutter'])
+
+      return {
+        ...res,
+        colProps: {
+          span: 24,
+          ...res.colProps,
+        },
+      } as ConfigFormConfig
+    }),
 )
 
-const { visible: drawerVisible, show: showDrawer } = useVisible()
+const { visible: drawerVisible, show: showDrawer, hide: hideDrawer } = useVisible()
 
-const tableRef = useTemplateRef<TableInstance>('tableRef')
+const tableRef = useTemplateRef('tableRef')
 const tableData = ref<unknown[]>([])
 
 const paginationModel = ref(getDefaultPaginationModel(tableConfig.tablePaginationConfig ?? {}))
@@ -62,15 +78,30 @@ const searchHandle = async () => {
     tableData.value = resData.data ?? []
     paginationModel.value.total = resData.total ?? 0
   } catch (error) {
-    console.error('Error fetching data:', error)
+    ElMessage.error('Error fetching data:', error)
     tableData.value = []
     paginationModel.value.total = 0
   }
 }
-
 const resetHandle = () => {
   filterModel.value = getDefaultFilterModel(filterConfig)
   paginationModel.value = getDefaultPaginationModel(tableConfig.tablePaginationConfig ?? {})
+  searchHandle()
+}
+
+const drawerSearchHandle = async () => {
+  try {
+    await filterInnerRef.value?.formRef?.validate()
+    searchHandle()
+    hideDrawer()
+  } catch (error) {
+    console.log(error)
+
+    ElMessage.error(Object.values(error)?.[0]?.[0].message)
+  }
+}
+const drawerResetHandle = () => {
+  filterModel.value = getDefaultFilterModel(filterConfig)
   searchHandle()
 }
 
@@ -87,20 +118,37 @@ defineExpose({
 <template>
   <div class="config-search-page">
     <div class="config-filter-wrap">
-      <div class="config-filter-outter-wrap">
-        <ConfigForm ref="filterOutterRef" v-model="filterModel" :form-config="filterOutterConfig" />
+      <div class="config-filter-outter">
+        <ConfigForm
+          ref="filterOutterRef"
+          class="config-filter-outter-form"
+          v-model="filterModel"
+          :form-config="filterOutterConfig"
+          :form-raw-config="{
+            labelPosition: 'top',
+          }"
+          :row-config="{ gutter: 15 }"
+        />
         <div class="outter-btn-box">
-          <el-button type="default" @click="resetHandle">重置</el-button>
-          <el-button type="primary" @click="searchHandle">查询</el-button>
-          <el-button type="primary" @click="showDrawer">更多筛选</el-button>
+          <el-button type="default" link @click="resetHandle">重置</el-button>
+          <el-button type="primary" link @click="searchHandle">查询</el-button>
+          <el-button type="primary" link @click="showDrawer">更多筛选</el-button>
         </div>
+      </div>
+      <div class="config-filter-controls">
+        <slot name="controls"></slot>
       </div>
 
       <el-drawer v-model="drawerVisible" title="更多筛选">
-        <ConfigForm ref="filterInnerRef" v-model="filterModel" :form-config="filterInnerConfig" />
+        <ConfigForm
+          ref="filterInnerRef"
+          v-model="filterModel"
+          :form-config="filterInnerConfig"
+          :form-raw-config="{ labelPosition: 'top' }"
+        />
         <div class="inner-btn-box">
-          <el-button type="default" @click="resetHandle">重置</el-button>
-          <el-button type="primary" @click="searchHandle">查询</el-button>
+          <el-button type="primary" link @click="drawerResetHandle">重置</el-button>
+          <el-button type="primary" @click="drawerSearchHandle">查询</el-button>
         </div>
       </el-drawer>
     </div>
@@ -142,3 +190,55 @@ defineExpose({
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.config-search-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .config-filter-wrap {
+    .config-filter-outter {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      .config-filter-outter-form {
+        width: 100%;
+      }
+    }
+    .config-filter-controls {
+      width: 100%;
+      padding: 10px 0;
+    }
+    :deep(.el-drawer) {
+      .el-drawer__header {
+        margin-bottom: 0;
+      }
+      .el-drawer__body {
+        position: relative;
+        .inner-btn-box {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 20px;
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
+      }
+    }
+  }
+
+  .config-table-wrap {
+    margin-bottom: 20px;
+  }
+
+  .config-pagination-wrap {
+    margin-bottom: 20px;
+  }
+}
+</style>
