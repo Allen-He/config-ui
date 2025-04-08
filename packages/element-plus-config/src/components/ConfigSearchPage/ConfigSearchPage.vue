@@ -7,7 +7,7 @@ import { omit } from 'lodash-es'
 import { useVisible } from '@config-ui/shared'
 import { ConfigFormConfig } from '../ConfigForm'
 
-const { filterConfig = [], tableConfig = {}, request } = defineProps<SearchPageConfig>()
+const { filterConfig = [], tableConfig = {}, tableV2Config = {}, request } = defineProps<SearchPageConfig>()
 
 const filterModel = ref(getDefaultFilterModel(filterConfig))
 
@@ -47,6 +47,7 @@ const filterInnerConfig = computed(() =>
 const { visible: drawerVisible, show: showDrawer, hide: hideDrawer } = useVisible()
 
 const tableRef = useTemplateRef('tableRef')
+const tableV2Ref = useTemplateRef('tableV2Ref')
 const tableData = ref<unknown[]>([])
 
 const paginationModel = ref(getDefaultPaginationModel(tableConfig.tablePaginationConfig ?? {}))
@@ -110,6 +111,7 @@ defineExpose({
   filterOutterRef,
   filterInnerRef,
   tableRef,
+  tableV2Ref,
   searchHandle,
   resetHandle,
 })
@@ -153,7 +155,7 @@ defineExpose({
       </el-drawer>
     </div>
     <div class="config-table-wrap">
-      <el-table ref="tableRef" :data="tableData" v-bind="tableConfig.tableProps">
+      <el-table v-if="tableConfig" ref="tableRef" :data="tableData" v-bind="tableConfig.tableProps">
         <template v-if="!tableConfig.tableSlots?.default">
           <el-table-column
             v-for="(item, index) in tableConfig.tableColumnsConfig"
@@ -177,6 +179,15 @@ defineExpose({
           <slot :name="tableSlotName" v-bind="tableSlotSlotProps"></slot>
         </template>
       </el-table>
+      <el-table-v2 v-if="tableV2Config" ref="tableV2Ref" :data="tableData" v-bind="tableV2Config.tableProps">
+        <template
+          v-for="(_, tableV2SlotName) in tableV2Config.tableSlots"
+          #[tableV2SlotName]="tableV2SlotSlotProps"
+          :key="tableV2SlotName"
+        >
+          <slot :name="tableV2SlotName" v-bind="tableV2SlotSlotProps"></slot>
+        </template>
+      </el-table-v2>
     </div>
     <div class="config-pagination-wrap">
       <el-pagination

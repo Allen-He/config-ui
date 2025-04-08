@@ -27,16 +27,10 @@ defineExpose({
             <component
               v-if="!item.formItemSlots?.default"
               v-model="formModel[item.field ?? item.formItemProps!.prop]"
-              :is="
-                typeof item.component === 'string' ? COMPONENT_MAP[item.component] : item.component
-              "
+              :is="typeof item.component === 'string' ? COMPONENT_MAP[item.component] : item.component"
               v-bind="item.componentProps"
             >
-              <template
-                v-for="(_, slotName) in item.componentSlots"
-                #[slotName]="slotProps"
-                :key="slotName"
-              >
+              <template v-for="(_, slotName) in item.componentSlots" #[slotName]="slotProps" :key="slotName">
                 <slot :name="slotName" v-bind="slotProps"></slot>
               </template>
             </component>
