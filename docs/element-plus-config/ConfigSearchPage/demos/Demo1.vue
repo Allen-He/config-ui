@@ -5,10 +5,12 @@ import {
   FilterConfig,
   RequestFn,
   TableConfig,
+  PaginationConfig,
 } from '@config-ui/element-plus-config'
 
 interface FilterModel {
   name: string
+  category: string
   count: string
   region: string
   delivery: boolean
@@ -17,6 +19,7 @@ interface FilterModel {
 }
 interface TabledDataItem {
   name: string
+  category: string
   count: string
   region: string
   desc: string
@@ -41,6 +44,18 @@ const filterConfig = ref<FilterConfig<FilterModel>[]>([
     componentProps: {
       placeholder: 'Activity name',
     },
+  },
+  {
+    field: 'category',
+    formItemProps: {
+      label: 'Activity category',
+      prop: 'category',
+    },
+    component: 'ElInput',
+    componentProps: {
+      placeholder: 'Activity category',
+    },
+    isVisible: (model) => !!model.name,
   },
   {
     field: 'region',
@@ -73,6 +88,18 @@ const filterConfig = ref<FilterConfig<FilterModel>[]>([
       onChange: (val: string) => {
         console.log('Activity count', val)
       },
+    },
+    watch: {
+      fields: ['region'],
+      cb: (value, oldValue, rawConfig, onCleanup) => {
+        const [newRegion] = value ?? []
+        const [oldRegion] = oldValue ?? []
+
+        console.log(newRegion, oldRegion, rawConfig, onCleanup)
+
+        rawConfig.componentProps.disabled = !newRegion
+      },
+      options: { immediate: true },
     },
   },
   {
@@ -129,10 +156,10 @@ const tableConfig = ref<TableConfig<TabledDataItem>>({
       },
     },
   ],
-  tablePaginationConfig: {
-    paginationProps: {
-      pageSizes: [10, 20, 30, 40],
-    },
+})
+const paginationConfig = ref<PaginationConfig>({
+  paginationProps: {
+    pageSizes: [10, 20, 30, 40],
   },
 })
 
@@ -148,6 +175,7 @@ const request: RequestFn<FilterModel, TabledDataItem> = async (params) => {
           (_, idx) =>
             ({
               name: `Activity ${idx + 1}`,
+              category: `Category ${idx + 1}`,
               count: String(idx + 1),
               region: 'shanghai',
               delivery: true,
@@ -167,6 +195,7 @@ const request: RequestFn<FilterModel, TabledDataItem> = async (params) => {
     ref="configSearchPageRef"
     :filter-config="filterConfig"
     :table-config="tableConfig"
+    :pagination-config="paginationConfig"
     :request="request"
   />
 </template>

@@ -1,17 +1,23 @@
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { COMPONENT_MAP } from './helper'
-import type { ConfigFormConfig } from './helper'
+<script lang="ts" setup generic="T = any">
+import { useTemplateRef } from 'vue'
+import { COMPONENT_MAP, useConfigWatch } from './helper'
+import type { ConfigFormConfig, FormItemRawConfig } from './helper'
 import type { FormInstance, FormProps, RowProps } from 'element-plus'
 
 const { formConfig, formRawConfig, rowConfig } = defineProps<{
-  formConfig: ConfigFormConfig[]
+  formConfig: ConfigFormConfig<T>[]
   formRawConfig?: Partial<Exclude<FormProps, 'model'>>
   rowConfig?: Partial<RowProps>
 }>()
-const formModel = defineModel<Record<string, any>>({ required: true })
+const formModel = defineModel<T>({ required: true })
 
-const formRef = ref<FormInstance>()
+const formRef = useTemplateRef<FormInstance>('formRef')
+
+useConfigWatch(formModel, formConfig)
+
+const isVisible = (configItem: FormItemRawConfig<T>) => {
+  return configItem.isVisible ? configItem.isVisible(formModel.value) : true
+}
 
 defineExpose({
   formRef,
@@ -22,7 +28,7 @@ defineExpose({
   <el-form ref="formRef" :model="formModel" v-bind="formRawConfig">
     <el-row v-bind="rowConfig">
       <template v-for="item in formConfig" :key="item.field ?? item.formItemProps!.prop">
-        <el-col v-bind="item.colProps">
+        <el-col v-if="isVisible(item)" v-bind="item.colProps">
           <el-form-item v-bind="item.formItemProps">
             <component
               v-if="!item.formItemSlots?.default"

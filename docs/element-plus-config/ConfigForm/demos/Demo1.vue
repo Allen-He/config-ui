@@ -15,9 +15,10 @@ const formRef = useTemplateRef('formRef')
 
 const formModel = ref({
   name: undefined,
-  count: undefined,
   region: undefined,
+  count: undefined,
   delivery: false,
+  deliveryDetail: undefined,
   location: undefined,
   desc: undefined,
 })
@@ -75,6 +76,16 @@ const formConfig = ref<ConfigFormConfig<typeof formModel.value>[]>([
     },
     component: 'ElSwitch',
     componentProps: {},
+  },
+  {
+    formItemProps: {
+      label: 'Delivery detail',
+      prop: 'deliveryDetail',
+      required: true,
+    },
+    component: 'ElInput',
+    componentProps: {},
+    isVisible: (model) => !!model.delivery,
   },
   {
     formItemProps: {

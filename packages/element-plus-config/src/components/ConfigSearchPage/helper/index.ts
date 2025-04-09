@@ -16,22 +16,20 @@ export type TableColumnConfig<T = any> = {
   columnSlots?: ComponentSlots<typeof ElTableColumn>
 }
 
-export type TablePaginationConfig = {
-  paginationProps?: ComponentProps<typeof ElPagination> & FormatEmits<ComponentEmit<typeof ElPagination>>
-  paginationSlots?: ComponentSlots<typeof ElPagination>
-}
-
 export type TableConfig<T = any> = {
   tableProps?: Exclude<ComponentProps<typeof ElTable>, 'data'> & FormatEmits<ComponentEmit<typeof ElTable>>
   tableSlots?: ComponentSlots<typeof ElTable>
   tableColumnsConfig?: TableColumnConfig<T>[]
-  tablePaginationConfig?: TablePaginationConfig
 }
 
 export type TableV2Config = {
   tableProps?: Exclude<ComponentProps<typeof ElTableV2>, 'data'> & FormatEmits<ComponentEmit<typeof ElTableV2>>
   tableSlots?: ComponentSlots<typeof ElTableV2>
-  tablePaginationConfig?: TablePaginationConfig
+}
+
+export type PaginationConfig = {
+  paginationProps?: ComponentProps<typeof ElPagination> & FormatEmits<ComponentEmit<typeof ElPagination>>
+  paginationSlots?: ComponentSlots<typeof ElPagination>
 }
 
 export type RequestFn<F = any, T = any> = (
@@ -42,10 +40,11 @@ export type SearchPageConfig<F = any, T = any> = {
   filterConfig?: FilterConfig<F>[]
   tableConfig?: TableConfig<T>
   tableV2Config?: TableV2Config
+  paginationConfig?: PaginationConfig
   request?: RequestFn<F, T>
 }
 
-export const getDefaultFilterModel = (filterConfig: FilterConfig[]) => {
+export const getDefaultFilterModel = <T>(filterConfig: FilterConfig<T>[]) => {
   const filterModel: Record<string, unknown> = {}
 
   return filterConfig.reduce((acc, cur) => {
@@ -55,7 +54,7 @@ export const getDefaultFilterModel = (filterConfig: FilterConfig[]) => {
   }, filterModel)
 }
 
-export const getDefaultPaginationModel = (paginationConfig: TablePaginationConfig) => {
+export const getDefaultPaginationModel = (paginationConfig: PaginationConfig) => {
   const { paginationProps } = paginationConfig
 
   return {

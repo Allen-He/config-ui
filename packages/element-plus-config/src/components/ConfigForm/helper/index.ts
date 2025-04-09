@@ -1,3 +1,4 @@
+import { Component, Ref, Slots, watch, WatchOptions } from 'vue'
 import { FormatEmits, UnionKey } from '@config-ui/shared'
 import {
   // ElRow,
@@ -27,7 +28,6 @@ import {
   ElUpload,
 } from 'element-plus'
 import { ValueOf } from 'element-plus/es/components/table/src/table-column/defaults.mjs'
-import { Component, Slots } from 'vue'
 import type { ComponentProps, ComponentEmit, ComponentSlots } from 'vue-component-type-helpers'
 
 // note: "field"的优先级比"formItemProps.prop"高，且两者不能同时为空
@@ -36,6 +36,17 @@ export interface FormItemRawConfig<T = any> {
   formItemProps?: Exclude<ComponentProps<typeof ElFormItem>, 'prop'> & { prop: UnionKey<T> }
   formItemSlots?: ComponentSlots<typeof ElFormItem>
   colProps?: ComponentProps<typeof ElCol>
+  isVisible?: (model: T) => boolean
+  watch?: {
+    fields: UnionKey<T>[]
+    cb: (
+      value: any[] | undefined,
+      oldValue: any[] | undefined,
+      rawConfig: ConfigFormConfig<T>,
+      onCleanup: (cleanupFn: () => void) => void,
+    ) => any
+    options?: WatchOptions
+  }
 }
 
 export interface ComponentRawConfigMap<T = any> {
@@ -195,4 +206,19 @@ export const COMPONENT_MAP: Record<keyof ComponentRawConfigMap, Component> = {
   ElTreeSelect,
   ElUpload,
   ElSegmented,
+}
+
+export const useConfigWatch = <T>(formModel: Ref<T>, formConfig: ConfigFormConfig<T>[]) => {
+  for (const formConfigItem of formConfig) {
+    const watchOpts = formConfigItem.watch
+    if (watchOpts) {
+      watch(
+        () => watchOpts.fields.map((it) => formModel.value[it]),
+        (value, oldValue, onCleanup) => {
+          watchOpts.cb(value, oldValue, formConfigItem, onCleanup)
+        },
+        watchOpts.options,
+      )
+    }
+  }
 }

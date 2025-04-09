@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="F = any, T = any">
 import { ElMessage } from 'element-plus'
 import { computed, ref, useTemplateRef } from 'vue'
 import ConfigForm from '../ConfigForm/ConfigForm.vue'
@@ -7,9 +7,15 @@ import { omit } from 'lodash-es'
 import { useVisible } from '@config-ui/shared'
 import { ConfigFormConfig } from '../ConfigForm'
 
-const { filterConfig = [], tableConfig = {}, tableV2Config = {}, request } = defineProps<SearchPageConfig>()
+const {
+  filterConfig = [],
+  tableConfig,
+  tableV2Config,
+  paginationConfig = {},
+  request,
+} = defineProps<SearchPageConfig<F, T>>()
 
-const filterModel = ref(getDefaultFilterModel(filterConfig))
+const filterModel = ref<F>(getDefaultFilterModel(filterConfig) as F)
 
 const filterOutterRef = useTemplateRef('filterOutterRef')
 const filterOutterConfig = computed(() =>
@@ -48,9 +54,9 @@ const { visible: drawerVisible, show: showDrawer, hide: hideDrawer } = useVisibl
 
 const tableRef = useTemplateRef('tableRef')
 const tableV2Ref = useTemplateRef('tableV2Ref')
-const tableData = ref<unknown[]>([])
+const tableData = ref<T[]>([])
 
-const paginationModel = ref(getDefaultPaginationModel(tableConfig.tablePaginationConfig ?? {}))
+const paginationModel = ref(getDefaultPaginationModel(paginationConfig))
 
 const handleCurrentChange = (val: number) => {
   console.log(`current page: ${val}`)
@@ -86,7 +92,7 @@ const searchHandle = async () => {
 }
 const resetHandle = () => {
   filterModel.value = getDefaultFilterModel(filterConfig)
-  paginationModel.value = getDefaultPaginationModel(tableConfig.tablePaginationConfig ?? {})
+  paginationModel.value = getDefaultPaginationModel(paginationConfig)
   searchHandle()
 }
 
@@ -194,7 +200,7 @@ defineExpose({
         v-model:current-page="paginationModel.current"
         v-model:page-size="paginationModel.pageSize"
         :total="paginationModel.total"
-        v-bind="tableConfig.tablePaginationConfig"
+        v-bind="paginationConfig"
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"
       />
