@@ -5,7 +5,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "pnpm docs:dev",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -15,17 +14,13 @@
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
-    "format": "prettier --write packages/",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "format": "prettier --write packages/"
   },
   "dependencies": {
+    "@config-ui/docs": "workspace:*",
     "@config-ui/ant-design-config": "workspace:*",
     "@config-ui/element-plus-config": "workspace:*",
     "@config-ui/shared": "workspace:*",
-    "element-plus": "^2.9.7",
-    "@element-plus/icons-vue": "^2.3.1",
     "vue": "^3.5.13"
   },
   "devDependencies": {
@@ -51,7 +46,6 @@
     "typescript": "~5.8.0",
     "vite": "^6.2.1",
     "vite-plugin-vue-devtools": "^7.7.2",
-    "vitepress": "^1.6.3",
     "vitest": "^3.0.8",
     "vue-tsc": "^2.2.8"
   },

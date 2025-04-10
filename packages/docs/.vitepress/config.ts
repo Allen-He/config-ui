@@ -42,5 +42,4 @@ export default defineConfig({
     },
   },
   lastUpdated: true,
-  outDir: '../dist/docs',
 })
