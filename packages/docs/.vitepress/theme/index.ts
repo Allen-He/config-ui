@@ -5,7 +5,7 @@ import DefaultTheme from 'vitepress/theme'
 import './style.css'
 import 'element-plus/dist/index.css'
 
-import DemoWrap from '../../_core/DemoWrap.vue'
+import DemoContainer from '../../_core/DemoContainer/Index.vue'
 
 export default {
   extends: DefaultTheme,
@@ -15,7 +15,7 @@ export default {
     })
   },
   enhanceApp({ app, router, siteData }) {
-    app.component('DemoWrap', DemoWrap)
+    app.component('DemoContainer', DemoContainer)
 
     // client only
     if (!import.meta.env.SSR) {

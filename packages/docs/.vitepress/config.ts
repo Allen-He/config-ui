@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress'
+import mdContainer from 'markdown-it-container'
+import { createDemoContainer } from '../_core/DemoContainer/plugin'
 
 const menus = [
   { text: 'HelloWorld', link: '/element-plus-config/HelloWorld' },
@@ -42,4 +44,9 @@ export default defineConfig({
     },
   },
   lastUpdated: true,
+  markdown: {
+    config: (md) => {
+      md.use(mdContainer, 'demo', createDemoContainer(md))
+    },
+  },
 })

@@ -15,6 +15,7 @@
     "@element-plus/icons-vue": "^2.3.1"
   },
   "devDependencies": {
-    "vitepress": "^1.6.3"
+    "vitepress": "^1.6.3",
+    "markdown-it-container": "^4.0.0"
   }
 }

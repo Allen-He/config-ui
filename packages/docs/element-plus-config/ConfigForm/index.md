@@ -6,10 +6,6 @@
 
 ## 示例1
 
-<DemoWrap>
-  <Demo1 />
-</DemoWrap>
-
-::: details Source Code
-<<< ./demos/Demo1.vue
+::: demo
+./demos/Demo1.vue
 :::
