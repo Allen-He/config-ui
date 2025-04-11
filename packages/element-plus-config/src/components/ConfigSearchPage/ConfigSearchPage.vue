@@ -127,7 +127,7 @@ defineExpose({
   <div class="config-search-page">
     <div class="config-filter-wrap">
       <div class="config-filter-outter">
-        <ConfigForm
+        <config-form
           ref="filterOutterRef"
           class="config-filter-outter-form"
           v-model="filterModel"
@@ -148,7 +148,7 @@ defineExpose({
       </div>
 
       <el-drawer v-model="drawerVisible" title="更多筛选">
-        <ConfigForm
+        <config-form
           ref="filterInnerRef"
           v-model="filterModel"
           :form-config="filterInnerConfig"

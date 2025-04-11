@@ -1,6 +1,7 @@
 import path, { basename, dirname } from 'path'
 import fs from 'fs'
 import type { MarkdownRenderer } from 'vitepress'
+import { injectImportScript } from './helper'
 
 interface ContainerOpts {
   marker?: string | undefined
@@ -19,15 +20,18 @@ export function createDemoContainer(md: MarkdownRenderer): ContainerOpts {
       if (tokens[idx].nesting === 1 /* means the tag is opening */) {
         const description = m && m.length > 1 ? m[1] : ''
         const sourceFileToken = tokens[idx + 2]
-        let source = ''
         const sourceFile = sourceFileToken.children?.[0].content ?? ''
+        const sourceFilePath = path.resolve(dirname(env.path), sourceFile)
 
+        const [componentName, ext = 'vue'] = basename(sourceFile).split('.', 2)
+
+        let source = ''
         if (sourceFileToken.type === 'inline') {
-          source = fs.readFileSync(path.resolve(dirname(env.path), sourceFile), 'utf-8')
+          source = fs.readFileSync(sourceFilePath, 'utf-8')
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
 
-        const [componentName, ext = 'vue'] = basename(sourceFile).split('.', 2)
+        injectImportScript(env, sourceFile, componentName)
 
         return `
           <DemoContainer

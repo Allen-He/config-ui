@@ -5,6 +5,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "start": "pnpm docs:dev",
+    "docs:dev": "pnpm --filter ./packages/docs -r docs:dev",
+    "docs:build": "pnpm --filter ./packages/docs -r docs:build",
+    "docs:preview": "pnpm --filter ./packages/docs -r docs:preview",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",

@@ -115,7 +115,6 @@ const resetHandle = () => {
 }
 const submitHandle = async () => {
   console.log('formModel', formModel.value)
-
   try {
     await formRef.value?.formRef?.validate()
     ElMessage.success('submit success')
@@ -127,7 +126,7 @@ const submitHandle = async () => {
 
 <template>
   <div>
-    <ConfigForm
+    <config-form
       ref="formRef"
       v-model="formModel"
       :form-config="formConfig"

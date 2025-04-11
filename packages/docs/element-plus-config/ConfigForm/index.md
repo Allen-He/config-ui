@@ -1,7 +1,3 @@
-<script setup>
-  import Demo1 from './demos/Demo1.vue'
-</script>
-
 # ConfigForm
 
 ## 示例1
