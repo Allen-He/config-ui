@@ -1,12 +1,17 @@
-import { ComponentEmit, ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
-import { ConfigFormConfig } from '../../ConfigForm'
-import { FormatEmits, UnionKey } from '@config-ui/shared'
-import { ElPagination, ElTable, ElTableColumn, ElTableV2 } from 'element-plus'
+import type { ComponentEmit, ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
+import type { ConfigFormConfig } from '../../ConfigForm'
+import type { FormatEmits, UnionKey } from '@config-ui/shared'
+import { ElPageHeader, ElPagination, ElTable, ElTableColumn, ElTableV2 } from 'element-plus'
+
+export type PageHeaderConfig = {
+  pageHeaderProps?: ComponentProps<typeof ElPageHeader> & FormatEmits<ComponentEmit<typeof ElPageHeader>>
+  pageHeaderSlots?: ComponentSlots<typeof ElPageHeader>
+}
 
 export type FilterConfig<T = any> = ConfigFormConfig<T> & {
   default?: unknown | (() => unknown)
-  onlyOutter?: boolean
-  onlyInner?: boolean
+  onlyInList?: boolean
+  onlyInDrawer?: boolean
 }
 
 export type TableColumnConfig<T = any> = {
@@ -37,6 +42,7 @@ export type RequestFn<F = any, T = any> = (
 ) => Promise<{ data: T[]; total: number }>
 
 export type SearchPageConfig<F = any, T = any> = {
+  pageHeaderConfig?: PageHeaderConfig
   filterConfig?: FilterConfig<F>[]
   tableConfig?: TableConfig<T>
   tableV2Config?: TableV2Config
@@ -49,7 +55,10 @@ export const getDefaultFilterModel = <T>(filterConfig: FilterConfig<T>[]) => {
 
   return filterConfig.reduce((acc, cur) => {
     const { default: defaultValue, field, formItemProps } = cur
-    acc[field ?? formItemProps!.prop] = typeof defaultValue === 'function' ? defaultValue() : defaultValue
+    const resField = field ?? formItemProps?.prop
+    if (resField) {
+      acc[resField] = typeof defaultValue === 'function' ? defaultValue() : defaultValue
+    }
     return acc
   }, filterModel)
 }
@@ -60,6 +69,6 @@ export const getDefaultPaginationModel = (paginationConfig: PaginationConfig) =>
   return {
     current: paginationProps?.currentPage ?? 1,
     pageSize: paginationProps?.pageSize ?? 10,
-    total: paginationProps?.pageCount ?? 0,
+    total: paginationProps?.total ?? 0,
   }
 }

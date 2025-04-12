@@ -1,4 +1,4 @@
-import { Ref, ToRefs } from 'vue'
+import type { Ref, ToRefs } from 'vue'
 
 export type UnionKey<T = any> = keyof T & string
 

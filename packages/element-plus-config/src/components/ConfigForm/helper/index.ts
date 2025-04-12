@@ -1,5 +1,6 @@
-import { Component, Ref, Slots, watch, WatchOptions } from 'vue'
-import { FormatEmits, UnionKey } from '@config-ui/shared'
+import { watch } from 'vue'
+import type { Component, CSSProperties, Ref, Slots, WatchOptions } from 'vue'
+import type { FormatEmits, UnionKey, ValueOf } from '@config-ui/shared'
 import {
   // ElRow,
   ElCol,
@@ -27,13 +28,12 @@ import {
   ElTreeSelect,
   ElUpload,
 } from 'element-plus'
-import { ValueOf } from 'element-plus/es/components/table/src/table-column/defaults.mjs'
 import type { ComponentProps, ComponentEmit, ComponentSlots } from 'vue-component-type-helpers'
 
 // note: "field"的优先级比"formItemProps.prop"高，且两者不能同时为空
 export interface FormItemRawConfig<T = any> {
   field?: UnionKey<T>
-  formItemProps?: Exclude<ComponentProps<typeof ElFormItem>, 'prop'> & { prop: UnionKey<T> }
+  formItemProps?: Exclude<ComponentProps<typeof ElFormItem>, 'prop'> & { prop?: UnionKey<T> }
   formItemSlots?: ComponentSlots<typeof ElFormItem>
   colProps?: ComponentProps<typeof ElCol>
   isVisible?: (model: T) => boolean

@@ -1,13 +1,15 @@
-<script lang="ts" setup generic="F = any, T = any">
+<script lang="tsx" setup generic="F = any, T = any">
 import { ElMessage } from 'element-plus'
-import { computed, ref, useTemplateRef } from 'vue'
+import { computed, defineComponent, ref, useTemplateRef } from 'vue'
 import ConfigForm from '../ConfigForm/ConfigForm.vue'
-import { SearchPageConfig, getDefaultFilterModel, getDefaultPaginationModel } from './helper/index'
-import { omit } from 'lodash-es'
+import { getDefaultFilterModel, getDefaultPaginationModel } from './helper/index'
+import type { SearchPageConfig } from './helper/index'
+import { cloneDeep, omit } from 'lodash-es'
 import { useVisible } from '@config-ui/shared'
-import { ConfigFormConfig } from '../ConfigForm'
+import type { ConfigFormConfig } from '../ConfigForm'
 
 const {
+  pageHeaderConfig,
   filterConfig = [],
   tableConfig,
   tableV2Config,
@@ -15,42 +17,43 @@ const {
   request,
 } = defineProps<SearchPageConfig<F, T>>()
 
-const filterModel = ref<F>(getDefaultFilterModel(filterConfig) as F)
+const FilterSearchComp = defineComponent({
+  setup() {
+    return () => (
+      <div class="list-btn-box">
+        <el-divider direction="vertical" style="margin-left: 0px"></el-divider>
+        <el-button type="primary" link onClick={resetHandle}>
+          重置
+        </el-button>
+        <el-button type="primary" link onClick={searchHandle}>
+          查询
+        </el-button>
+        <el-button type="primary" link onClick={drawerOpenHandle}>
+          更多筛选项
+        </el-button>
+      </div>
+    )
+  },
+})
 
-const filterOutterRef = useTemplateRef('filterOutterRef')
-const filterOutterConfig = computed(() =>
+const listFilterModel = ref<F>(getDefaultFilterModel(filterConfig) as F)
+const listFilterRef = useTemplateRef('listFilterRef')
+const listFilterConfig = computed(() =>
   filterConfig
-    .filter((it) => !it.onlyInner)
+    .filter((it) => !it.onlyInDrawer)
+    .concat([{ component: FilterSearchComp, formItemProps: { style: 'height: calc(100% - 18px)' } }])
     .map((it) => {
-      const res = omit(it, ['default', 'onlyInner', 'onlyOutter'])
+      const res = omit(it, ['default', 'onlyInDrawer', 'onlyInList'])
 
       return {
         ...res,
         colProps: {
-          span: 6,
+          span: 8,
           ...res.colProps,
         },
       } as ConfigFormConfig
     }),
 )
-const filterInnerRef = useTemplateRef('filterInnerRef')
-const filterInnerConfig = computed(() =>
-  filterConfig
-    .filter((it) => !it.onlyOutter)
-    .map((it) => {
-      const res = omit(it, ['default', 'onlyInner', 'onlyOutter'])
-
-      return {
-        ...res,
-        colProps: {
-          span: 24,
-          ...res.colProps,
-        },
-      } as ConfigFormConfig
-    }),
-)
-
-const { visible: drawerVisible, show: showDrawer, hide: hideDrawer } = useVisible()
 
 const tableRef = useTemplateRef('tableRef')
 const tableV2Ref = useTemplateRef('tableV2Ref')
@@ -58,17 +61,8 @@ const tableData = ref<T[]>([])
 
 const paginationModel = ref(getDefaultPaginationModel(paginationConfig))
 
-const handleCurrentChange = (val: number) => {
-  console.log(`current page: ${val}`)
-  searchHandle()
-}
-const handleSizeChange = (val: number) => {
-  console.log(`${val} items per page`)
-  searchHandle()
-}
-
 const searchHandle = async () => {
-  const resFormData = filterModel.value
+  const resFormData = listFilterModel.value
 
   if (!request) {
     tableData.value = []
@@ -84,38 +78,72 @@ const searchHandle = async () => {
     })
     tableData.value = resData.data ?? []
     paginationModel.value.total = resData.total ?? 0
-  } catch (error) {
-    ElMessage.error('Error fetching data:', error)
+  } catch (error: any) {
+    ElMessage.error('Error fetching data:', error.message)
     tableData.value = []
     paginationModel.value.total = 0
   }
 }
 const resetHandle = () => {
-  filterModel.value = getDefaultFilterModel(filterConfig)
+  listFilterModel.value = getDefaultFilterModel(filterConfig)
   paginationModel.value = getDefaultPaginationModel(paginationConfig)
   searchHandle()
 }
 
+const handleCurrentChange = (val: number) => {
+  console.log(`current page: ${val}`)
+  searchHandle()
+}
+const handleSizeChange = (val: number) => {
+  console.log(`${val} items per page`)
+  searchHandle()
+}
+
+const { visible: drawerVisible, show: showDrawer, hide: hideDrawer } = useVisible()
+
+const drawerFilterModel = ref<F>(cloneDeep(listFilterModel.value))
+const drawerFilterRef = useTemplateRef('drawerFilterRef')
+const drawerFilterConfig = computed(() =>
+  filterConfig
+    .filter((it) => !it.onlyInList)
+    .map((it) => {
+      const res = omit(it, ['default', 'onlyInDrawer', 'onlyInList'])
+
+      return {
+        ...res,
+        colProps: {
+          span: 24,
+          ...res.colProps,
+        },
+      } as ConfigFormConfig
+    }),
+)
+
+const drawerOpenHandle = () => {
+  drawerFilterModel.value = cloneDeep(listFilterModel.value)
+  showDrawer()
+}
 const drawerSearchHandle = async () => {
   try {
-    await filterInnerRef.value?.formRef?.validate()
+    await drawerFilterRef.value?.formRef?.validate()
+    listFilterModel.value = cloneDeep(drawerFilterModel.value)
     searchHandle()
     hideDrawer()
-  } catch (error) {
+  } catch (error: any) {
     console.log(error)
-
-    ElMessage.error(Object.values(error)?.[0]?.[0].message)
+    ElMessage.error((Object.values(error) as any)?.[0]?.[0]?.message)
   }
 }
 const drawerResetHandle = () => {
-  filterModel.value = getDefaultFilterModel(filterConfig)
+  drawerFilterModel.value = cloneDeep(listFilterModel.value)
   searchHandle()
 }
 
 defineExpose({
-  filterModel,
-  filterOutterRef,
-  filterInnerRef,
+  filterModel: listFilterModel,
+  filterRef: listFilterRef,
+  drawerFilterModel,
+  drawerFilterRef,
   tableRef,
   tableV2Ref,
   searchHandle,
@@ -125,43 +153,47 @@ defineExpose({
 
 <template>
   <div class="config-search-page">
+    <div class="config-header-wrap" v-if="pageHeaderConfig">
+      <el-page-header v-bind="pageHeaderConfig.pageHeaderProps">
+        <template
+          v-for="(_, pageHeaderSlotName) in pageHeaderConfig.pageHeaderSlots"
+          #[pageHeaderSlotName]="pageHeaderSlotProps"
+          :key="pageHeaderSlotName"
+        >
+          <slot :name="pageHeaderSlotName" v-bind="pageHeaderSlotProps"></slot>
+        </template>
+      </el-page-header>
+    </div>
     <div class="config-filter-wrap">
-      <div class="config-filter-outter">
+      <div class="config-filter-list">
         <config-form
-          ref="filterOutterRef"
-          class="config-filter-outter-form"
-          v-model="filterModel"
-          :form-config="filterOutterConfig"
-          :form-raw-config="{
-            labelPosition: 'top',
-          }"
+          ref="listFilterRef"
+          class="config-filter-list-form"
+          v-model="listFilterModel"
+          :form-config="listFilterConfig"
+          :form-raw-config="{ labelWidth: 'auto' }"
           :row-config="{ gutter: 15 }"
         />
-        <div class="outter-btn-box">
-          <el-button type="default" link @click="resetHandle">重置</el-button>
-          <el-button type="primary" link @click="searchHandle">查询</el-button>
-          <el-button type="primary" link @click="showDrawer">更多筛选</el-button>
-        </div>
       </div>
       <div class="config-filter-controls">
         <slot name="controls"></slot>
       </div>
 
-      <el-drawer v-model="drawerVisible" title="更多筛选">
+      <el-drawer v-model="drawerVisible" title="更多筛选项">
         <config-form
-          ref="filterInnerRef"
-          v-model="filterModel"
-          :form-config="filterInnerConfig"
+          ref="drawerFilterRef"
+          v-model="drawerFilterModel"
+          :form-config="drawerFilterConfig"
           :form-raw-config="{ labelPosition: 'top' }"
         />
-        <div class="inner-btn-box">
+        <div class="drawer-btn-box">
           <el-button type="primary" link @click="drawerResetHandle">重置</el-button>
           <el-button type="primary" @click="drawerSearchHandle">查询</el-button>
         </div>
       </el-drawer>
     </div>
     <div class="config-table-wrap">
-      <el-table v-if="tableConfig" ref="tableRef" :data="tableData" v-bind="tableConfig.tableProps">
+      <el-table v-if="tableConfig" ref="tableRef" :data="tableData" height="100%" v-bind="tableConfig.tableProps">
         <template v-if="!tableConfig.tableSlots?.default">
           <el-table-column
             v-for="(item, index) in tableConfig.tableColumnsConfig"
@@ -196,14 +228,26 @@ defineExpose({
       </el-table-v2>
     </div>
     <div class="config-pagination-wrap">
+      <div class="config-pagination-controls">
+        <slot name="pagination-controls"></slot>
+      </div>
       <el-pagination
         v-model:current-page="paginationModel.current"
         v-model:page-size="paginationModel.pageSize"
         :total="paginationModel.total"
-        v-bind="paginationConfig"
+        layout="total, prev, pager, next, jumper, sizes"
+        v-bind="paginationConfig.paginationProps"
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"
-      />
+      >
+        <template
+          v-for="(_, paginationSlotName) in paginationConfig.paginationSlots"
+          #[paginationSlotName]="paginationSlotProps"
+          :key="paginationSlotName"
+        >
+          <slot :name="paginationSlotName" v-bind="paginationSlotProps"></slot>
+        </template>
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -214,16 +258,31 @@ defineExpose({
   display: flex;
   flex-direction: column;
 
+  .config-header-wrap {
+    margin-bottom: 20px;
+    :deep(.el-page-header) {
+      .el-page-header__back,
+      .el-divider {
+        display: none;
+      }
+    }
+  }
+
   .config-filter-wrap {
-    .config-filter-outter {
+    .config-filter-list {
       width: 100%;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
 
-      .config-filter-outter-form {
+      .config-filter-list-form {
         width: 100%;
+
+        :deep(.list-btn-box) {
+          display: flex;
+          align-items: center;
+        }
       }
     }
     .config-filter-controls {
@@ -236,7 +295,7 @@ defineExpose({
       }
       .el-drawer__body {
         position: relative;
-        .inner-btn-box {
+        .drawer-btn-box {
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -251,11 +310,20 @@ defineExpose({
   }
 
   .config-table-wrap {
+    flex: 1 1 auto;
     margin-bottom: 20px;
+    overflow: hidden;
   }
 
   .config-pagination-wrap {
-    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .config-pagination-controls {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
   }
 }
 </style>

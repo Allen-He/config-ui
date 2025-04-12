@@ -3,6 +3,7 @@ import { useTemplateRef } from 'vue'
 import { COMPONENT_MAP, useConfigWatch } from './helper'
 import type { ConfigFormConfig, FormItemRawConfig } from './helper'
 import type { FormInstance, FormProps, RowProps } from 'element-plus'
+import type { UnionKey } from '@/shared/src'
 
 const { formConfig, formRawConfig, rowConfig } = defineProps<{
   formConfig: ConfigFormConfig<T>[]
@@ -19,6 +20,10 @@ const isVisible = (configItem: FormItemRawConfig<T>) => {
   return configItem.isVisible ? configItem.isVisible(formModel.value) : true
 }
 
+const getField = (configItem: FormItemRawConfig<T>, defaultValue?: unknown) => {
+  return configItem.field ?? configItem.formItemProps?.prop ?? defaultValue
+}
+
 defineExpose({
   formRef,
 })
@@ -27,19 +32,30 @@ defineExpose({
 <template>
   <el-form ref="formRef" :model="formModel" v-bind="formRawConfig">
     <el-row v-bind="rowConfig">
-      <template v-for="item in formConfig" :key="item.field ?? item.formItemProps!.prop">
+      <template v-for="(item, itemIndex) in formConfig" :key="getField(item, itemIndex)">
         <el-col v-if="isVisible(item)" v-bind="item.colProps">
           <el-form-item v-bind="item.formItemProps">
-            <component
-              v-if="!item.formItemSlots?.default"
-              v-model="formModel[item.field ?? item.formItemProps!.prop]"
-              :is="typeof item.component === 'string' ? COMPONENT_MAP[item.component] : item.component"
-              v-bind="item.componentProps"
-            >
-              <template v-for="(_, slotName) in item.componentSlots" #[slotName]="slotProps" :key="slotName">
-                <slot :name="slotName" v-bind="slotProps"></slot>
-              </template>
-            </component>
+            <template v-if="!item.formItemSlots?.default">
+              <component
+                v-if="getField(item)"
+                v-model="formModel[getField(item) as UnionKey<T>]"
+                :is="typeof item.component === 'string' ? COMPONENT_MAP[item.component] : item.component"
+                v-bind="item.componentProps"
+              >
+                <template v-for="(_, slotName) in item.componentSlots" #[slotName]="slotProps" :key="slotName">
+                  <slot :name="slotName" v-bind="slotProps"></slot>
+                </template>
+              </component>
+              <component
+                v-else
+                :is="typeof item.component === 'string' ? COMPONENT_MAP[item.component] : item.component"
+                v-bind="item.componentProps"
+              >
+                <template v-for="(_, slotName) in item.componentSlots" #[slotName]="slotProps" :key="slotName">
+                  <slot :name="slotName" v-bind="slotProps"></slot>
+                </template>
+              </component>
+            </template>
             <template
               v-for="(_, formItemSlotName) in item.formItemSlots"
               #[formItemSlotName]="formItemSlotProps"

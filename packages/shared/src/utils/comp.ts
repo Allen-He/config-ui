@@ -1,4 +1,4 @@
-import { App, Plugin } from 'vue'
+import type { App, Plugin } from 'vue'
 
 export type ValueOf<T> = T[keyof T]
 
@@ -20,11 +20,13 @@ export function withInstall<T, E extends Record<string, any>, M extends Record<s
   }
   if (extra) {
     for (const [key, comp] of Object.entries(extra)) {
+      // @ts-ignore
       ;(main as SFCWithInstall<T>)[key] = comp
     }
   }
   if (staticMethods) {
     Object.keys(staticMethods).forEach((key) => {
+      // @ts-ignore
       ;(main as SFCWithInstall<T>)[key] = staticMethods[key]
     })
   }

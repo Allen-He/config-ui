@@ -8,6 +8,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ConfigForm: typeof import('./src/components/ConfigForm/ConfigForm.vue')['default']
+    ConfigSearchPage: typeof import('./src/components/ConfigSearchPage/ConfigSearchPage.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld/HelloWorld.vue')['default']
   }
 }

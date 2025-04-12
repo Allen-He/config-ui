@@ -118,8 +118,8 @@ const submitHandle = async () => {
   try {
     await formRef.value?.formRef?.validate()
     ElMessage.success('submit success')
-  } catch (error) {
-    ElMessage.error(Object.values(error)?.[0]?.[0].message)
+  } catch (error: any) {
+    ElMessage.error((Object.values(error) as any)?.[0]?.[0].message)
   }
 }
 </script>

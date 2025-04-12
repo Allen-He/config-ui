@@ -1,4 +1,4 @@
-import path, { basename, dirname } from 'path'
+import path from 'path'
 import fs from 'fs'
 import type { MarkdownRenderer } from 'vitepress'
 import { injectImportScript } from './helper'
@@ -21,9 +21,9 @@ export function createDemoContainer(md: MarkdownRenderer): ContainerOpts {
         const description = m && m.length > 1 ? m[1] : ''
         const sourceFileToken = tokens[idx + 2]
         const sourceFile = sourceFileToken.children?.[0].content ?? ''
-        const sourceFilePath = path.resolve(dirname(env.path), sourceFile)
+        const sourceFilePath = path.resolve(path.dirname(env.path), sourceFile)
 
-        const [componentName, ext = 'vue'] = basename(sourceFile).split('.', 2)
+        const [componentName, ext = 'vue'] = path.basename(sourceFile).split('.', 2)
 
         let source = ''
         if (sourceFileToken.type === 'inline') {

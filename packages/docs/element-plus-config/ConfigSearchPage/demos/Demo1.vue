@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef } from 'vue'
-import {
-  ConfigSearchPage,
+import { ConfigSearchPage } from '@config-ui/element-plus-config'
+import type {
   FilterConfig,
-  RequestFn,
   TableConfig,
   PaginationConfig,
-} from '@config-ui/element-plus-config'
+  RequestFn,
+  PageHeaderConfig,
+} from '@/element-plus-config/src'
 
 interface FilterModel {
   name: string
@@ -33,6 +34,11 @@ const options = Array.from({ length: 10000 }).map((_, idx) => ({
 
 const configSearchPageRef = useTemplateRef('configSearchPageRef')
 
+const pageHeaderConfig = ref<PageHeaderConfig>({
+  pageHeaderProps: {
+    content: '列表页标题',
+  },
+})
 const filterConfig = ref<FilterConfig<FilterModel>[]>([
   {
     field: 'name',
@@ -123,7 +129,7 @@ const tableConfig = ref<TableConfig<TabledDataItem>>({
       columnProps: {
         label: 'Activity name',
         prop: 'name',
-        width: 130,
+        minWidth: 130,
         fixed: 'left',
       },
     },
@@ -131,28 +137,28 @@ const tableConfig = ref<TableConfig<TabledDataItem>>({
       columnProps: {
         label: 'Activity count',
         prop: 'count',
-        width: 150,
+        minWidth: 150,
       },
     },
     {
       columnProps: {
         label: 'Activity zone',
         prop: 'region',
-        width: 200,
+        minWidth: 200,
       },
     },
     {
       columnProps: {
         label: 'Activity desc',
         prop: 'desc',
-        width: 300,
+        minWidth: 300,
       },
     },
     {
       columnProps: {
         label: 'Activity remark',
         prop: 'remark',
-        width: 300,
+        minWidth: 300,
       },
     },
   ],
@@ -160,6 +166,7 @@ const tableConfig = ref<TableConfig<TabledDataItem>>({
 const paginationConfig = ref<PaginationConfig>({
   paginationProps: {
     pageSizes: [10, 20, 30, 40],
+    pageSize: 20,
   },
 })
 
@@ -171,7 +178,7 @@ const request: RequestFn<FilterModel, TabledDataItem> = async (params) => {
     setTimeout(() => {
       resolve({
         total: 100,
-        data: Array.from({ length: 10 }).map(
+        data: Array.from({ length: 20 }).map(
           (_, idx) =>
             ({
               name: `Activity ${idx + 1}`,
@@ -192,7 +199,9 @@ const request: RequestFn<FilterModel, TabledDataItem> = async (params) => {
 
 <template>
   <ConfigSearchPage
+    style="height: 500px"
     ref="configSearchPageRef"
+    :page-header-config="pageHeaderConfig"
     :filter-config="filterConfig"
     :table-config="tableConfig"
     :pagination-config="paginationConfig"

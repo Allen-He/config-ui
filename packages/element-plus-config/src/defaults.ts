@@ -1,4 +1,4 @@
-import { App } from 'vue'
+import type { App } from 'vue'
 import packageJson from '../package.json'
 import HelloWorld from './components/HelloWorld'
 import ConfigForm from './components/ConfigForm'
