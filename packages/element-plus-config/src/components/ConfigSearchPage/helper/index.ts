@@ -1,6 +1,6 @@
 import type { ComponentEmit, ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import type { ConfigFormConfig } from '../../ConfigForm'
-import type { FormatEmits, UnionKey } from '@config-ui/shared'
+import type { FormatEmits, RecordObj, UnionKey } from '@config-ui/shared'
 import { ElPageHeader, ElPagination, ElTable, ElTableColumn, ElTableV2 } from 'element-plus'
 
 export type PageHeaderConfig = {
@@ -8,27 +8,27 @@ export type PageHeaderConfig = {
   pageHeaderSlots?: ComponentSlots<typeof ElPageHeader>
 }
 
-export type FilterConfig<T = any> = ConfigFormConfig<T> & {
+export type FilterConfig<T = RecordObj> = ConfigFormConfig<T> & {
   default?: unknown | (() => unknown)
   onlyInList?: boolean
   onlyInDrawer?: boolean
 }
 
-export type TableColumnConfig<T = any> = {
+export type TableColumnConfig<T = RecordObj> = {
   columnProps?: Exclude<ComponentProps<typeof ElTableColumn>, 'prop'> & {
     prop: UnionKey<T>
   } & FormatEmits<ComponentEmit<typeof ElTableColumn>>
   columnSlots?: ComponentSlots<typeof ElTableColumn>
 }
 
-export type TableConfig<T = any> = {
+export type TableConfig<T = RecordObj> = {
   tableProps?: Exclude<ComponentProps<typeof ElTable>, 'data'> & FormatEmits<ComponentEmit<typeof ElTable>>
   tableSlots?: ComponentSlots<typeof ElTable>
   tableColumnsConfig?: TableColumnConfig<T>[]
 }
 
 export type TableV2Config = {
-  tableProps?: Exclude<ComponentProps<typeof ElTableV2>, 'data'> & FormatEmits<ComponentEmit<typeof ElTableV2>>
+  tableProps: Exclude<ComponentProps<typeof ElTableV2>, 'data'> & FormatEmits<ComponentEmit<typeof ElTableV2>>
   tableSlots?: ComponentSlots<typeof ElTableV2>
 }
 
@@ -37,11 +37,11 @@ export type PaginationConfig = {
   paginationSlots?: ComponentSlots<typeof ElPagination>
 }
 
-export type RequestFn<F = any, T = any> = (
+export type RequestFn<F = RecordObj, T = RecordObj> = (
   params: F & { offset: number; limit: number },
 ) => Promise<{ data: T[]; total: number }>
 
-export type SearchPageConfig<F = any, T = any> = {
+export type SearchPageConfig<F = RecordObj, T = RecordObj> = {
   pageHeaderConfig?: PageHeaderConfig
   filterConfig?: FilterConfig<F>[]
   tableConfig?: TableConfig<T>

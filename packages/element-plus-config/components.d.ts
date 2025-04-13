@@ -8,8 +8,20 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    ConfigForm: typeof import('./src/components/ConfigForm/ConfigForm.vue')['default']
-    ConfigSearchPage: typeof import('./src/components/ConfigSearchPage/ConfigSearchPage.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld/HelloWorld.vue')['default']
+    ConfigFormConfigForm: typeof import('./src/components/ConfigForm/ConfigForm.vue')['default']
+    ConfigSearchPageConfigSearchPage: typeof import('./src/components/ConfigSearchPage/ConfigSearchPage.vue')['default']
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElCol: typeof import('element-plus/es')['ElCol']
+    ElDivider: typeof import('element-plus/es')['ElDivider']
+    ElDrawer: typeof import('element-plus/es')['ElDrawer']
+    ElForm: typeof import('element-plus/es')['ElForm']
+    ElFormItem: typeof import('element-plus/es')['ElFormItem']
+    ElPageHeader: typeof import('element-plus/es')['ElPageHeader']
+    ElPagination: typeof import('element-plus/es')['ElPagination']
+    ElRow: typeof import('element-plus/es')['ElRow']
+    ElTable: typeof import('element-plus/es')['ElTable']
+    ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTableV2: typeof import('element-plus/es')['ElTableV2']
+    HelloWorldHelloWorld: typeof import('./src/components/HelloWorld/HelloWorld.vue')['default']
   }
 }

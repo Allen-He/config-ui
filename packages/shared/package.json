@@ -2,11 +2,26 @@
   "name": "@config-ui/shared",
   "version": "0.0.0",
   "description": "",
-  "main": "src/index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT",
+  "keywords": [],
+  "main": "dist/lib/index.js",
+  "module": "dist/es/index.js",
+  "types": "dist/es/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "element-plus": "^2.9.7",
+    "lodash-es": "^4.17.21",
+    "vue-component-type-helpers": "^2.2.8"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
+    "unplugin-vue-components": "^28.4.1",
+    "unplugin-auto-import": "^19.1.1"
+  }
 }

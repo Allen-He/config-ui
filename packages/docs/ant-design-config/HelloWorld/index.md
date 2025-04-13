@@ -4,7 +4,7 @@ title: HelloWorld 组件
 
 <script setup>
 import { ref } from 'vue'
-import { HelloWorld } from '@config-ui/ant-design-config'
+import { HelloWorld } from '@config-ui/ant-design-vue-config'
 
 const count = ref(0)
 </script>

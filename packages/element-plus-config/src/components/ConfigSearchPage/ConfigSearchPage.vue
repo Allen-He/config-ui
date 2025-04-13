@@ -1,4 +1,4 @@
-<script lang="tsx" setup generic="F = any, T = any">
+<script lang="tsx" setup>
 import { ElMessage } from 'element-plus'
 import { computed, defineComponent, ref, useTemplateRef } from 'vue'
 import ConfigForm from '../ConfigForm/ConfigForm.vue'
@@ -15,7 +15,7 @@ const {
   tableV2Config,
   paginationConfig = {},
   request,
-} = defineProps<SearchPageConfig<F, T>>()
+} = defineProps<SearchPageConfig>()
 
 const FilterSearchComp = defineComponent({
   setup() {
@@ -36,7 +36,7 @@ const FilterSearchComp = defineComponent({
   },
 })
 
-const listFilterModel = ref<F>(getDefaultFilterModel(filterConfig) as F)
+const listFilterModel = ref(getDefaultFilterModel(filterConfig))
 const listFilterRef = useTemplateRef('listFilterRef')
 const listFilterConfig = computed(() =>
   filterConfig
@@ -57,7 +57,7 @@ const listFilterConfig = computed(() =>
 
 const tableRef = useTemplateRef('tableRef')
 const tableV2Ref = useTemplateRef('tableV2Ref')
-const tableData = ref<T[]>([])
+const tableData = ref<Record<string, any>[]>([])
 
 const paginationModel = ref(getDefaultPaginationModel(paginationConfig))
 
@@ -101,7 +101,7 @@ const handleSizeChange = (val: number) => {
 
 const { visible: drawerVisible, show: showDrawer, hide: hideDrawer } = useVisible()
 
-const drawerFilterModel = ref<F>(cloneDeep(listFilterModel.value))
+const drawerFilterModel = ref(cloneDeep(listFilterModel.value))
 const drawerFilterRef = useTemplateRef('drawerFilterRef')
 const drawerFilterConfig = computed(() =>
   filterConfig
@@ -217,7 +217,7 @@ defineExpose({
           <slot :name="tableSlotName" v-bind="tableSlotSlotProps"></slot>
         </template>
       </el-table>
-      <el-table-v2 v-if="tableV2Config" ref="tableV2Ref" :data="tableData" v-bind="tableV2Config.tableProps">
+      <el-table-v2 v-if="tableV2Config" ref="tableV2Ref" v-bind="tableV2Config.tableProps" :data="tableData">
         <template
           v-for="(_, tableV2SlotName) in tableV2Config.tableSlots"
           #[tableV2SlotName]="tableV2SlotSlotProps"

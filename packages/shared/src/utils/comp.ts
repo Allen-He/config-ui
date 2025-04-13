@@ -8,7 +8,7 @@ export type FormatEmits<T> = {
 
 export type SFCWithInstall<T> = T & Plugin
 
-export function withInstall<T, E extends Record<string, any>, M extends Record<string, any>>(
+export function withInstall<T = any, E extends Record<string, any> = {}, M extends Record<string, any> = {}>(
   main: T,
   extra?: E,
   staticMethods?: M,

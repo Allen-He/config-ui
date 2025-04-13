@@ -1,6 +1,6 @@
 import { watch } from 'vue'
-import type { Component, CSSProperties, Ref, Slots, WatchOptions } from 'vue'
-import type { FormatEmits, UnionKey, ValueOf } from '@config-ui/shared'
+import type { Component, Ref, Slots, WatchOptions } from 'vue'
+import type { FormatEmits, UnionKey, ValueOf, RecordObj } from '@config-ui/shared'
 import {
   // ElRow,
   ElCol,
@@ -31,7 +31,7 @@ import {
 import type { ComponentProps, ComponentEmit, ComponentSlots } from 'vue-component-type-helpers'
 
 // note: "field"的优先级比"formItemProps.prop"高，且两者不能同时为空
-export interface FormItemRawConfig<T = any> {
+export interface FormItemRawConfig<T = RecordObj> {
   field?: UnionKey<T>
   formItemProps?: Exclude<ComponentProps<typeof ElFormItem>, 'prop'> & { prop?: UnionKey<T> }
   formItemSlots?: ComponentSlots<typeof ElFormItem>
@@ -49,7 +49,7 @@ export interface FormItemRawConfig<T = any> {
   }
 }
 
-export interface ComponentRawConfigMap<T = any> {
+export interface ComponentRawConfigMap<T = RecordObj> {
   // ElRow: {
   //   component: 'ElRow'
   //   componentProps?: ComponentProps<typeof ElRow>
@@ -173,13 +173,13 @@ export interface ComponentRawConfigMap<T = any> {
     componentSlots?: ComponentSlots<typeof ElSegmented>
   } & FormItemRawConfig<T>
 }
-export type CustomComponentRawConfig<T = any> = {
+export type CustomComponentRawConfig<T = RecordObj> = {
   component: Component
   componentProps?: any
   componentSlots?: Slots
 } & FormItemRawConfig<T>
 
-export type ConfigFormConfig<T = any> = ValueOf<ComponentRawConfigMap<T>> | CustomComponentRawConfig<T>
+export type ConfigFormConfig<T = RecordObj> = ValueOf<ComponentRawConfigMap<T>> | CustomComponentRawConfig<T>
 
 export const COMPONENT_MAP: Record<keyof ComponentRawConfigMap, Component> = {
   // ElRow,

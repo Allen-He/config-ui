@@ -1,5 +1,5 @@
 {
-  "name": "@config-ui/element-plus-config",
+  "name": "@config-ui/ant-design-vue-config",
   "version": "0.0.0",
   "description": "",
   "author": "",
@@ -15,13 +15,9 @@
     "build": "vite build"
   },
   "dependencies": {
-    "element-plus": "^2.9.7",
-    "lodash-es": "^4.17.21",
-    "vue-component-type-helpers": "^2.2.8"
+    "ant-design-vue": "^4.2.6"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.12",
-    "unplugin-vue-components": "^28.4.1",
-    "unplugin-auto-import": "^19.1.1"
+    "unplugin-vue-components": "^28.4.1"
   }
 }

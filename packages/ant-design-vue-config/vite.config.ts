@@ -2,9 +2,8 @@ import { defineConfig } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import dts from 'vite-plugin-dts'
 
 const resolvePath = (src: string) => path.resolve(__dirname, src)
@@ -13,13 +12,12 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    AutoImport({
-      resolvers: [ElementPlusResolver({ importStyle: 'sass' })],
-    }),
     Components({
-      resolvers: [ElementPlusResolver({ importStyle: 'sass' })],
-      include: [/\.vue$/, /\.vue\?vue/, /\.tsx$/],
-      directoryAsNamespace: true,
+      resolvers: [
+        AntDesignVueResolver({
+          importStyle: false, // css in js
+        }),
+      ],
     }),
     dts({
       entryRoot: resolvePath('./src'),
@@ -35,7 +33,7 @@ export default defineConfig({
     emptyOutDir: true,
     minify: false,
     rollupOptions: {
-      external: ['vue', 'element-plus'],
+      external: ['vue', 'ant-design-vue'],
       output: [
         {
           format: 'es',
@@ -46,7 +44,7 @@ export default defineConfig({
           exports: 'named',
           globals: {
             vue: 'Vue',
-            'element-plus': 'ElementPlus',
+            'ant-design-vue': 'AntDesignVue',
           },
         },
         {
@@ -60,7 +58,7 @@ export default defineConfig({
           exports: 'named',
           globals: {
             vue: 'Vue',
-            'element-plus': 'ElementPlus',
+            'ant-design-vue': 'AntDesignVue',
           },
         },
         {
@@ -70,7 +68,7 @@ export default defineConfig({
           exports: 'named',
           globals: {
             vue: 'Vue',
-            'element-plus': 'ElementPlus',
+            'ant-design-vue': 'AntDesignVue',
           },
         },
         {
@@ -80,7 +78,7 @@ export default defineConfig({
           exports: 'named',
           globals: {
             vue: 'Vue',
-            'element-plus': 'ElementPlus',
+            'ant-design-vue': 'AntDesignVue',
           },
         },
         {
@@ -90,7 +88,7 @@ export default defineConfig({
           exports: 'named',
           globals: {
             vue: 'Vue',
-            'element-plus': 'ElementPlus',
+            'ant-design-vue': 'AntDesignVue',
           },
         },
       ],

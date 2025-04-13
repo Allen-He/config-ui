@@ -49,4 +49,5 @@ export default defineConfig({
       md.use(mdContainer, 'demo', createDemoContainer(md))
     },
   },
+  outDir: './dist',
 })
