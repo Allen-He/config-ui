@@ -12,6 +12,7 @@ const menus = [
 export default defineConfig({
   title: 'config-ui',
   description: 'A VitePress Site',
+  base: '/config-ui/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -48,6 +49,5 @@ export default defineConfig({
     config: (md) => {
       md.use(mdContainer, 'demo', createDemoContainer(md))
     },
-  },
-  outDir: './dist',
+  }
 })

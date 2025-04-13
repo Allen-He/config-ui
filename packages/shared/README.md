@@ -32,4 +32,4 @@ const { visible, show, hide } = useVisible()
 
 ## 文档
 
-更多详细文档请参考 [官方文档](https://github.com/your-repo/config-ui)。
+更多详细文档请参考 [官方文档](https://allen-he.github.io/config-ui)。

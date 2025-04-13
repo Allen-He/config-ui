@@ -31,5 +31,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages # GitHub Pages 默认分支
-          folder: packages/docs/dist # 构建后的文档目录
+          folder: packages/docs/.vitepress/dist # 构建后的文档目录
           clean: true # 清除 gh-pages 分支上的旧文件
