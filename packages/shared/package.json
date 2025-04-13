@@ -9,7 +9,8 @@
   "module": "dist/es/index.js",
   "types": "dist/es/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build": "vite build"
