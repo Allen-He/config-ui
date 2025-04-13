@@ -62,8 +62,8 @@ const onSourceVisibleKeydown = (e: KeyboardEvent) => {
   <!-- danger here DO NOT USE INLINE SCRIPT TAG -->
   <div v-html="descriptionDecoded" />
 
-  <div class="example vp-raw">
-    <div class="example-showcase" ref="showcaseRef">
+  <div class="example">
+    <div class="example-showcase vp-raw" ref="showcaseRef">
       <slot name="source" />
     </div>
 

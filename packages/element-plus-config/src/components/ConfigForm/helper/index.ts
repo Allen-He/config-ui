@@ -1,6 +1,6 @@
 import { watch } from 'vue'
 import type { Component, Ref, Slots, WatchOptions } from 'vue'
-import type { FormatEmits, UnionKey, ValueOf, RecordObj } from '@config-ui/shared'
+import type { FormatEmits, UnionKey, ValueOf } from '@config-ui/shared'
 import {
   // ElRow,
   ElCol,
@@ -31,7 +31,7 @@ import {
 import type { ComponentProps, ComponentEmit, ComponentSlots } from 'vue-component-type-helpers'
 
 // note: "field"的优先级比"formItemProps.prop"高，且两者不能同时为空
-export interface FormItemRawConfig<T = RecordObj> {
+export interface FormItemRawConfig<T = any> {
   field?: UnionKey<T>
   formItemProps?: Exclude<ComponentProps<typeof ElFormItem>, 'prop'> & { prop?: UnionKey<T> }
   formItemSlots?: ComponentSlots<typeof ElFormItem>
@@ -49,7 +49,7 @@ export interface FormItemRawConfig<T = RecordObj> {
   }
 }
 
-export interface ComponentRawConfigMap<T = RecordObj> {
+export interface ComponentRawConfigMap<T = any> {
   // ElRow: {
   //   component: 'ElRow'
   //   componentProps?: ComponentProps<typeof ElRow>
@@ -173,13 +173,13 @@ export interface ComponentRawConfigMap<T = RecordObj> {
     componentSlots?: ComponentSlots<typeof ElSegmented>
   } & FormItemRawConfig<T>
 }
-export type CustomComponentRawConfig<T = RecordObj> = {
+export type CustomComponentRawConfig<T = any> = {
   component: Component
   componentProps?: any
   componentSlots?: Slots
 } & FormItemRawConfig<T>
 
-export type ConfigFormConfig<T = RecordObj> = ValueOf<ComponentRawConfigMap<T>> | CustomComponentRawConfig<T>
+export type ConfigFormConfig<T = any> = ValueOf<ComponentRawConfigMap<T>> | CustomComponentRawConfig<T>
 
 export const COMPONENT_MAP: Record<keyof ComponentRawConfigMap, Component> = {
   // ElRow,
@@ -208,7 +208,7 @@ export const COMPONENT_MAP: Record<keyof ComponentRawConfigMap, Component> = {
   ElSegmented,
 }
 
-export const useConfigWatch = <T>(formModel: Ref<T>, formConfig: ConfigFormConfig<T>[]) => {
+export const useConfigWatch = <T>(formModel: Ref<Record<string, unknown>>, formConfig: ConfigFormConfig<T>[]) => {
   for (const formConfigItem of formConfig) {
     const watchOpts = formConfigItem.watch
     if (watchOpts) {

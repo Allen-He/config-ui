@@ -1,4 +1,4 @@
-<script lang="tsx" setup>
+<script lang="tsx" setup generic="F = any, T = any">
 import { ElMessage } from 'element-plus'
 import { computed, defineComponent, ref, useTemplateRef } from 'vue'
 import ConfigForm from '../ConfigForm/ConfigForm.vue'
@@ -15,7 +15,7 @@ const {
   tableV2Config,
   paginationConfig = {},
   request,
-} = defineProps<SearchPageConfig>()
+} = defineProps<SearchPageConfig<F, T>>()
 
 const FilterSearchComp = defineComponent({
   setup() {
@@ -57,12 +57,12 @@ const listFilterConfig = computed(() =>
 
 const tableRef = useTemplateRef('tableRef')
 const tableV2Ref = useTemplateRef('tableV2Ref')
-const tableData = ref<Record<string, any>[]>([])
+const tableData = ref<T[]>([])
 
 const paginationModel = ref(getDefaultPaginationModel(paginationConfig))
 
 const searchHandle = async () => {
-  const resFormData = listFilterModel.value
+  const resFormData = listFilterModel.value as F
 
   if (!request) {
     tableData.value = []

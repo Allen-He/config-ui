@@ -7,7 +7,7 @@ import type {
   PaginationConfig,
   RequestFn,
   PageHeaderConfig,
-} from '@/element-plus-config/src'
+} from '@config-ui/element-plus-config'
 
 interface FilterModel {
   name: string

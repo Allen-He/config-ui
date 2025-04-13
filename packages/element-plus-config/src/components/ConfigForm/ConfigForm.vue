@@ -1,26 +1,26 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T = any">
 import { useTemplateRef } from 'vue'
 import { COMPONENT_MAP, useConfigWatch } from './helper'
 import type { ConfigFormConfig, FormItemRawConfig } from './helper'
 import type { FormInstance, FormProps, RowProps } from 'element-plus'
-import type { UnionKey } from '@/shared/src'
+import type { UnionKey } from '@config-ui/shared'
 
 const { formConfig, formRawConfig, rowConfig } = defineProps<{
-  formConfig: ConfigFormConfig[]
+  formConfig: ConfigFormConfig<T>[]
   formRawConfig?: Partial<Exclude<FormProps, 'model'>>
   rowConfig?: Partial<RowProps>
 }>()
-const formModel = defineModel<Record<string, any>>({ required: true })
+const formModel = defineModel<Record<string, unknown>>({ required: true })
 
 const formRef = useTemplateRef<FormInstance>('formRef')
 
 useConfigWatch(formModel, formConfig)
 
-const isVisible = (configItem: FormItemRawConfig) => {
-  return configItem.isVisible ? configItem.isVisible(formModel.value) : true
+const isVisible = (configItem: FormItemRawConfig<T>) => {
+  return configItem.isVisible ? configItem.isVisible(formModel.value as T) : true
 }
 
-const getField = (configItem: FormItemRawConfig, defaultValue?: unknown) => {
+const getField = (configItem: FormItemRawConfig<T>, defaultValue?: unknown) => {
   return configItem.field ?? configItem.formItemProps?.prop ?? defaultValue
 }
 
@@ -38,7 +38,7 @@ defineExpose({
             <template v-if="!item.formItemSlots?.default">
               <component
                 v-if="getField(item)"
-                v-model="formModel[getField(item) as UnionKey]"
+                v-model="formModel[getField(item) as UnionKey<T>]"
                 :is="typeof item.component === 'string' ? COMPONENT_MAP[item.component] : item.component"
                 v-bind="item.componentProps"
               >
