@@ -19,7 +19,6 @@ export default defineConfig({
     Components({
       resolvers: [ElementPlusResolver({ importStyle: 'sass' })],
       include: [/\.vue$/, /\.vue\?vue/, /\.tsx$/],
-      directoryAsNamespace: true,
     }),
     dts({
       entryRoot: resolvePath('./src'),
