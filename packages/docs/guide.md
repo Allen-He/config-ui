@@ -16,7 +16,7 @@ npm i @config-ui/element-plus-config
 pnpm add @config-ui/element-plus-config
 ```
 ```bash [yarn]
-npm i @config-ui/element-plus-config
+yarn add @config-ui/element-plus-config
 ```
 :::
 
@@ -112,7 +112,7 @@ npm i @config-ui/ant-design-vue-config
 pnpm add @config-ui/ant-design-vue-config
 ```
 ```bash [yarn]
-npm i @config-ui/ant-design-vue-config
+yarn add @config-ui/ant-design-vue-config
 ```
 :::
 
@@ -143,7 +143,7 @@ npm i @config-ui/shared
 pnpm add @config-ui/shared
 ```
 ```bash [yarn]
-npm i @config-ui/shared
+yarn add @config-ui/shared
 ```
 :::
 

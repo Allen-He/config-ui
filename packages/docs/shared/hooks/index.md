@@ -7,7 +7,7 @@
 ### 使用方法
 
 ```typescript
-import { useVisible } from '@config-ui/shared/hooks';
+import { useVisible } from '@config-ui/shared';
 
 const { visible, show, hide, toggle } = useVisible();
 
