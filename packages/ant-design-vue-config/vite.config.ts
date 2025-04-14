@@ -29,6 +29,7 @@ export default defineConfig({
     target: 'esnext',
     lib: {
       entry: resolvePath('./src/index.ts'),
+      cssFileName: 'style'
     },
     emptyOutDir: true,
     minify: false,

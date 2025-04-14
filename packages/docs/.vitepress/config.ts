@@ -2,16 +2,10 @@ import { defineConfig } from 'vitepress'
 import mdContainer from 'markdown-it-container'
 import { createDemoContainer } from '../_core/DemoContainer/plugin'
 
-const menus = [
-  { text: 'HelloWorld', link: '/element-plus-config/HelloWorld' },
-  { text: 'ConfigForm', link: '/element-plus-config/ConfigForm' },
-  { text: 'ConfigSearchPage', link: '/element-plus-config/ConfigSearchPage' },
-]
-
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'config-ui',
-  description: 'A VitePress Site',
+  description: '灵活易用的业务组件库',
   base: '/config-ui/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -20,7 +14,11 @@ export default defineConfig({
       { text: '更新日志', link: '/changelog' },
       {
         text: '组件列表',
-        items: menus,
+        items: [
+          { text: 'ElementPlusConfig', link: '/element-plus-config/' },
+          { text: 'AntDesignVueConfig', link: '/ant-design-vue-config/' },
+          { text: 'Shared', link: '/shared' },
+        ],
       },
     ],
     sidebar: [
@@ -28,26 +26,81 @@ export default defineConfig({
       { text: '更新日志', link: '/changelog' },
       {
         text: '组件列表',
-        items: menus,
+        items: [
+          {
+            text: 'ElementPlusConfig',
+            link: '/element-plus-config/',
+            items: [
+              { text: 'ConfigForm', link: '/element-plus-config/ConfigForm' },
+              { text: 'ConfigSearchPage', link: '/element-plus-config/ConfigSearchPage' },
+            ],
+          },
+          {
+            text: 'AntDesignVueConfig',
+            link: '/ant-design-vue-config/',
+            items: [
+              { text: 'HelloWorld', link: '/element-plus-config/HelloWorld' }
+            ],
+          },
+          {
+            text: 'Shared',
+            link: '/shared/',
+            items: [
+              { text: 'Hooks', link: '/shared/hooks'}
+            ]
+          },
+        ],
       },
     ],
 
     socialLinks: [
       {
-        ariaLabel: 'GitHub',
-        link: 'https://github.com/Allen-He',
-        icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
+        icon: 'juejin',
+        link: 'https://juejin.cn/user/2410580264357357/posts',
+      },
+      {
+        icon: 'csdn',
+        link: 'https://blog.csdn.net/weixin_47516343'
+      },
+      {
+        icon: 'github',
+        link: 'https://github.com/Allen-He/config-ui',
       },
     ],
 
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2025-present Allen He'
+    },
+
     search: {
       provider: 'local',
-    },
+      options: {
+        locales: {
+          root: {
+            translations: {
+              button: {
+                buttonText: '搜索文档',
+                buttonAriaLabel: '搜索文档'
+              },
+              modal: {
+                noResultsText: '无法找到相关结果',
+                resetButtonTitle: '清除查询条件',
+                footer: {
+                  selectText: '选择',
+                  navigateText: '切换'
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   lastUpdated: true,
   markdown: {
     config: (md) => {
       md.use(mdContainer, 'demo', createDemoContainer(md))
     },
-  }
+  },
 })

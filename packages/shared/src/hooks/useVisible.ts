@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 
-export const useVisible = (bool = false) => {
-  const visible = ref(bool)
+export const useVisible = (initial = false) => {
+  const visible = ref(initial)
 
   const show = () => {
     visible.value = true
