@@ -12,7 +12,7 @@ hero:
       link: /guide
     - theme: alt
       text: 组件示例
-      link: /demos
+      link: /element-plus-config
 
 features:
   - icon: 🛠️

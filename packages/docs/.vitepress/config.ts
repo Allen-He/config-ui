@@ -33,13 +33,14 @@ export default defineConfig({
             items: [
               { text: 'ConfigForm', link: '/element-plus-config/ConfigForm' },
               { text: 'ConfigSearchPage', link: '/element-plus-config/ConfigSearchPage' },
+              { text: 'HelloWorld', link: '/element-plus-config/HelloWorld' },
             ],
           },
           {
             text: 'AntDesignVueConfig',
             link: '/ant-design-vue-config/',
             items: [
-              { text: 'HelloWorld', link: '/element-plus-config/HelloWorld' }
+              { text: 'HelloWorld', link: '/ant-design-vue-config/HelloWorld' }
             ],
           },
           {

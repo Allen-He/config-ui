@@ -1,19 +1,7 @@
----
-title: HelloWorld 组件
----
+# HelloWorld
 
-<script setup>
-import { ref } from 'vue'
-import { HelloWorld } from '@config-ui/ant-design-vue-config'
+## 示例1
 
-const count = ref(0)
-</script>
-
-<HelloWorld msg="Hello World ~" />
-
-<style module>
-.button {
-  color: red;
-  font-weight: bold;
-}
-</style>
+::: demo
+./demos/Demo1.vue
+:::

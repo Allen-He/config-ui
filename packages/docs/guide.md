@@ -118,7 +118,17 @@ npm i @config-ui/ant-design-vue-config
 
 ### 使用
 
+1. 在入口文件`main.ts`导入样式文件
+
+```typescript
+import '@config-ui/ant-design-vue-config/dist/es/style.css'
+```
+
+2. 按需引入业务组件
+
+```vue
 开发中，敬请期待～～～
+```
 
 ## Shared
 
