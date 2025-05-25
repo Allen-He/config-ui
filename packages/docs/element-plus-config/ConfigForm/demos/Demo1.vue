@@ -60,12 +60,15 @@ const formConfig = ref<ConfigFormConfig<typeof formModel.value>[]>([
       required: true,
     },
     component: 'ElSelectV2',
-    componentProps: {
-      placeholder: 'Activity count',
-      options: options,
-      onChange: (val: string) => {
-        console.log('Activity count', val)
-      },
+    componentProps: () => {
+      return {
+        disabled: !formModel.value.region,
+        placeholder: 'Activity count',
+        options: options,
+        onChange: (val: string) => {
+          console.log('Activity count', val)
+        },
+      }
     },
   },
   {

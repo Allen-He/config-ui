@@ -10,13 +10,13 @@ import type {
 } from '@config-ui/element-plus-config'
 
 interface FilterModel {
-  name: string
-  category: string
-  count: string
-  region: string
-  delivery: boolean
-  location: string
-  desc: string
+  name?: string
+  category?: string
+  count?: string
+  region?: string
+  delivery?: boolean
+  location?: string
+  desc?: string
 }
 interface TabledDataItem {
   name: string
@@ -31,6 +31,15 @@ const options = Array.from({ length: 10000 }).map((_, idx) => ({
   value: String(idx + 1),
   label: String(idx + 1),
 }))
+
+const filterModel = ref<FilterModel>({
+  name: undefined,
+  category: undefined,
+  region: undefined,
+  count: undefined,
+  delivery: false,
+  desc: undefined,
+})
 
 const configSearchPageRef = useTemplateRef('configSearchPageRef')
 
@@ -88,24 +97,15 @@ const filterConfig = ref<FilterConfig<FilterModel>[]>([
       prop: 'count',
     },
     component: 'ElSelectV2',
-    componentProps: {
-      placeholder: 'Activity count',
-      options: options,
-      onChange: (val: string) => {
-        console.log('Activity count', val)
-      },
-    },
-    watch: {
-      fields: ['region'],
-      cb: (value, oldValue, rawConfig, onCleanup) => {
-        const [newRegion] = value ?? []
-        const [oldRegion] = oldValue ?? []
-
-        console.log(newRegion, oldRegion, rawConfig, onCleanup)
-
-        rawConfig.componentProps.disabled = !newRegion
-      },
-      options: { immediate: true },
+    componentProps: () => {
+      return {
+        disabled: !filterModel.value.region,
+        placeholder: 'Activity count',
+        options: options,
+        onChange: (val: string) => {
+          console.log('Activity count', val)
+        },
+      }
     },
   },
   {
@@ -118,6 +118,7 @@ const filterConfig = ref<FilterConfig<FilterModel>[]>([
     componentProps: {
       placeholder: 'Activity desc',
     },
+    onlyInDrawer: true
   },
 ])
 const tableConfig = ref<TableConfig<TabledDataItem>>({
@@ -201,6 +202,7 @@ const request: RequestFn<FilterModel, TabledDataItem> = async (params) => {
   <ConfigSearchPage
     style="height: 500px"
     ref="configSearchPageRef"
+    v-model:filter-model="filterModel"
     :page-header-config="pageHeaderConfig"
     :filter-config="filterConfig"
     :table-config="tableConfig"

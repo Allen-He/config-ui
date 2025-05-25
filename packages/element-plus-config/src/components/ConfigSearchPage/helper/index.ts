@@ -9,7 +9,6 @@ export type PageHeaderConfig = {
 }
 
 export type FilterConfig<T = any> = ConfigFormConfig<T> & {
-  default?: unknown | (() => unknown)
   onlyInList?: boolean
   onlyInDrawer?: boolean
 }
@@ -48,19 +47,6 @@ export type SearchPageConfig<F = any, T = any> = {
   tableV2Config?: TableV2Config
   paginationConfig?: PaginationConfig
   request?: RequestFn<F, T>
-}
-
-export const getDefaultFilterModel = <T>(filterConfig: FilterConfig<T>[]) => {
-  const filterModel: Record<string, unknown> = {}
-
-  return filterConfig.reduce((acc, cur) => {
-    const { default: defaultValue, field, formItemProps } = cur
-    const resField = field ?? formItemProps?.prop
-    if (resField) {
-      acc[resField] = typeof defaultValue === 'function' ? defaultValue() : defaultValue
-    }
-    return acc
-  }, filterModel)
 }
 
 export const getDefaultPaginationModel = (paginationConfig: PaginationConfig) => {

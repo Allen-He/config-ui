@@ -2,7 +2,7 @@
 import { ElMessage } from 'element-plus'
 import { computed, defineComponent, ref, useTemplateRef } from 'vue'
 import ConfigForm from '../ConfigForm/ConfigForm.vue'
-import { getDefaultFilterModel, getDefaultPaginationModel } from './helper/index'
+import { getDefaultPaginationModel } from './helper/index'
 import type { SearchPageConfig } from './helper/index'
 import { cloneDeep, omit } from 'lodash-es'
 import { useVisible } from '@config-ui/shared'
@@ -36,14 +36,13 @@ const FilterSearchComp = defineComponent({
   },
 })
 
-const listFilterModel = ref(getDefaultFilterModel(filterConfig))
+const listFilterModel = defineModel<Record<string, unknown>>('filterModel', { required: true })
 const listFilterRef = useTemplateRef('listFilterRef')
 const listFilterConfig = computed(() =>
   filterConfig
-    .filter((it) => !it.onlyInDrawer)
     .concat([{ component: FilterSearchComp, formItemProps: { style: 'height: calc(100% - 18px)' } }])
     .map((it) => {
-      const res = omit(it, ['default', 'onlyInDrawer', 'onlyInList'])
+      const res = omit(it, ['onlyInDrawer', 'onlyInList'])
 
       return {
         ...res,
@@ -51,6 +50,7 @@ const listFilterConfig = computed(() =>
           span: 8,
           ...res.colProps,
         },
+        isVisible: () => !it.onlyInDrawer
       } as ConfigFormConfig
     }),
 )
@@ -85,7 +85,7 @@ const searchHandle = async () => {
   }
 }
 const resetHandle = () => {
-  listFilterModel.value = getDefaultFilterModel(filterConfig)
+  listFilterRef.value?.formRef?.resetFields()
   paginationModel.value = getDefaultPaginationModel(paginationConfig)
   searchHandle()
 }
@@ -105,9 +105,8 @@ const drawerFilterModel = ref(cloneDeep(listFilterModel.value))
 const drawerFilterRef = useTemplateRef('drawerFilterRef')
 const drawerFilterConfig = computed(() =>
   filterConfig
-    .filter((it) => !it.onlyInList)
     .map((it) => {
-      const res = omit(it, ['default', 'onlyInDrawer', 'onlyInList'])
+      const res = omit(it, ['onlyInDrawer', 'onlyInList'])
 
       return {
         ...res,
@@ -115,6 +114,7 @@ const drawerFilterConfig = computed(() =>
           span: 24,
           ...res.colProps,
         },
+        isVisible: () => !it.onlyInList
       } as ConfigFormConfig
     }),
 )
@@ -136,7 +136,6 @@ const drawerSearchHandle = async () => {
 }
 const drawerResetHandle = () => {
   drawerFilterModel.value = cloneDeep(listFilterModel.value)
-  searchHandle()
 }
 
 defineExpose({
