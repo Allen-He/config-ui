@@ -6,6 +6,7 @@ import './style.css'
 import 'element-plus/dist/index.css'
 
 import DemoContainer from '../../_core/DemoContainer/Index.vue'
+import DemoPlayground from '../../_core/DemoPlayground/Index.vue'
 
 export default {
   extends: DefaultTheme,
@@ -16,6 +17,7 @@ export default {
   },
   enhanceApp({ app, router, siteData }) {
     app.component('DemoContainer', DemoContainer)
+    app.component('DemoPlayground', DemoPlayground)
 
     // client only
     if (!import.meta.env.SSR) {

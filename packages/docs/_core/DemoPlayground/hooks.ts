@@ -9,7 +9,7 @@ export type Link = {
 
 const MAIN_FILE_NAME = 'App.vue'
 
-export const usePlayground = (source: string) => {
+export const useDemoPlayground = (source: string) => {
   const code = source ? decodeURIComponent(source) : source
   const originCode = {
     [MAIN_FILE_NAME]: code,

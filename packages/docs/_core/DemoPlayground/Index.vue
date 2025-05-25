@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { watchEffect, ref, computed } from 'vue'
+import { watchEffect, ref, computed, defineAsyncComponent } from 'vue'
 import { Repl, useStore, useVueImportMap } from '@vue/repl'
-import Codemirror from '@vue/repl/codemirror-editor'
 import type { ImportMap, OutputModes, ReplProps } from '@vue/repl'
+
+const Codemirror = defineAsyncComponent(() => import('@vue/repl/codemirror-editor'))
 
 // retrieve some configuration options from the URL
 const query = new URLSearchParams(location.search)

@@ -3,7 +3,7 @@ import { computed, useTemplateRef } from 'vue'
 import { isClient, useClipboard, useToggle } from '@vueuse/core'
 import { ElMessage, EVENT_CODE } from 'element-plus'
 import { CaretTop } from '@element-plus/icons-vue'
-import { usePlayground } from '../Playground/hooks'
+import { useDemoPlayground } from '../DemoPlayground/hooks'
 
 const props = defineProps<{
   source: string
@@ -27,7 +27,7 @@ const onFullscreenClick = () => {
 
 const onPlaygroundClick = () => {
   if (!isClient) return
-  const { link } = usePlayground(props.rawSource)
+  const { link } = useDemoPlayground(props.rawSource)
   window.open(link)
 }
 

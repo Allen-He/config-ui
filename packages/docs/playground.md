@@ -5,10 +5,6 @@ sidebar: false
 footer: false
 ---
 
-<script setup>
-import Playground from './_core/Playground/Index.vue';
-</script>
-
 <ClientOnly>
-  <Playground />
+  <DemoPlayground />
 </ClientOnly>
