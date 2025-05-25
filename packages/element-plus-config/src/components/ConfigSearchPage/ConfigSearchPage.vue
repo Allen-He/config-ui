@@ -139,9 +139,7 @@ const drawerResetHandle = () => {
 }
 
 defineExpose({
-  filterModel: listFilterModel,
-  filterRef: listFilterRef,
-  drawerFilterModel,
+  listFilterRef,
   drawerFilterRef,
   tableRef,
   tableV2Ref,
