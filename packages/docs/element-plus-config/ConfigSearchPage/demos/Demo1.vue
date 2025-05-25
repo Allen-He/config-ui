@@ -211,7 +211,7 @@ const request: RequestFn<FilterModel, TabledDataItem> = async (params) => {
   />
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .btn-box {
   width: 100%;
   display: flex;

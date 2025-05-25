@@ -7,7 +7,7 @@ import { HelloWorld } from '@config-ui/ant-design-vue-config'
   <HelloWorld msg="Hello World ~" />
 </template>
 
-<style module>
+<style scoped>
 .button {
   color: red;
   font-weight: bold;

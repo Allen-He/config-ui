@@ -7,7 +7,7 @@ import { HelloWorld } from '@config-ui/element-plus-config'
   <HelloWorld msg="Hello World ~" />
 </template>
 
-<style module>
+<style scoped>
 .button {
   color: red;
   font-weight: bold;

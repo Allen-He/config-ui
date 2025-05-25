@@ -147,7 +147,7 @@ const submitHandle = async () => {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .btn-box {
   width: 100%;
   display: flex;

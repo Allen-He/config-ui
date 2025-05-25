@@ -3,6 +3,7 @@ import { computed, useTemplateRef } from 'vue'
 import { isClient, useClipboard, useToggle } from '@vueuse/core'
 import { ElMessage, EVENT_CODE } from 'element-plus'
 import { CaretTop } from '@element-plus/icons-vue'
+import { usePlayground } from '../Playground/hooks'
 
 const props = defineProps<{
   source: string
@@ -26,7 +27,8 @@ const onFullscreenClick = () => {
 
 const onPlaygroundClick = () => {
   if (!isClient) return
-  alert('Comming soon!!!')
+  const { link } = usePlayground(props.rawSource)
+  window.open(link)
 }
 
 const { copy, isSupported } = useClipboard({
