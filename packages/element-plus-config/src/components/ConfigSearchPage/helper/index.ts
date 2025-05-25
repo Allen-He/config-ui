@@ -48,13 +48,3 @@ export type SearchPageConfig<F = any, T = any> = {
   paginationConfig?: PaginationConfig
   request?: RequestFn<F, T>
 }
-
-export const getDefaultPaginationModel = (paginationConfig: PaginationConfig) => {
-  const { paginationProps } = paginationConfig
-
-  return {
-    current: paginationProps?.currentPage ?? 1,
-    pageSize: paginationProps?.pageSize ?? 10,
-    total: paginationProps?.total ?? 0,
-  }
-}

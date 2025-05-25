@@ -198,7 +198,3 @@ export const COMPONENT_MAP: Record<keyof ComponentRawConfigMap, Component> = {
   ElUpload,
   ElSegmented,
 }
-
-export const getProps = (props: ValueOrFn) => {
-  return typeof props === 'function' ? props() : props;
-}

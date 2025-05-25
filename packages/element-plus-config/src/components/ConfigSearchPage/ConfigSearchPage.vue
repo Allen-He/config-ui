@@ -2,7 +2,6 @@
 import { ElMessage } from 'element-plus'
 import { computed, defineComponent, ref, useTemplateRef } from 'vue'
 import ConfigForm from '../ConfigForm/ConfigForm.vue'
-import { getDefaultPaginationModel } from './helper/index'
 import type { SearchPageConfig } from './helper/index'
 import { cloneDeep, omit } from 'lodash-es'
 import { useVisible } from '@config-ui/shared'
@@ -35,6 +34,10 @@ const FilterSearchComp = defineComponent({
     )
   },
 })
+const getDefaultPaginationModel = () => {
+  const { currentPage = 1, pageSize = 10, total = 0 } = paginationConfig.paginationProps ?? {};
+  return { currentPage, pageSize, total }
+}
 
 const listFilterModel = defineModel<Record<string, unknown>>('filterModel', { required: true })
 const listFilterRef = useTemplateRef('listFilterRef')
@@ -59,7 +62,7 @@ const tableRef = useTemplateRef('tableRef')
 const tableV2Ref = useTemplateRef('tableV2Ref')
 const tableData = ref<T[]>([])
 
-const paginationModel = ref(getDefaultPaginationModel(paginationConfig))
+const paginationModel = ref(getDefaultPaginationModel())
 
 const searchHandle = async () => {
   const resFormData = listFilterModel.value as F
@@ -73,7 +76,7 @@ const searchHandle = async () => {
   try {
     const resData = await request({
       ...resFormData,
-      offset: (paginationModel.value.current - 1) * paginationModel.value.pageSize,
+      offset: (paginationModel.value.currentPage - 1) * paginationModel.value.pageSize,
       limit: paginationModel.value.pageSize,
     })
     tableData.value = resData.data ?? []
@@ -86,7 +89,7 @@ const searchHandle = async () => {
 }
 const resetHandle = () => {
   listFilterRef.value?.formRef?.resetFields()
-  paginationModel.value = getDefaultPaginationModel(paginationConfig)
+  paginationModel.value = getDefaultPaginationModel()
   searchHandle()
 }
 
@@ -229,11 +232,11 @@ defineExpose({
         <slot name="pagination-controls"></slot>
       </div>
       <el-pagination
-        v-model:current-page="paginationModel.current"
-        v-model:page-size="paginationModel.pageSize"
-        :total="paginationModel.total"
         layout="total, prev, pager, next, jumper, sizes"
         v-bind="paginationConfig.paginationProps"
+        v-model:current-page="paginationModel.currentPage"
+        v-model:page-size="paginationModel.pageSize"
+        :total="paginationModel.total"
         @current-change="handleCurrentChange"
         @size-change="handleSizeChange"
       >

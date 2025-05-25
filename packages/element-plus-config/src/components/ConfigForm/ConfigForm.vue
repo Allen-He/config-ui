@@ -1,7 +1,7 @@
 <script lang="ts" setup generic="T = any">
 import { useTemplateRef } from 'vue'
-import { COMPONENT_MAP, getProps } from './helper'
-import type { ConfigFormConfig, FormItemRawConfig } from './helper'
+import { COMPONENT_MAP } from './helper'
+import type { ConfigFormConfig, FormItemRawConfig, ValueOrFn } from './helper'
 import type { FormInstance, FormProps, RowProps } from 'element-plus'
 import type { UnionKey } from '@config-ui/shared'
 
@@ -16,6 +16,10 @@ const formRef = useTemplateRef<FormInstance>('formRef')
 
 const isVisible = (configItem: FormItemRawConfig<T>) => {
   return configItem.isVisible ? configItem.isVisible(formModel.value as T) : true
+}
+
+const getProps = (curProps: ValueOrFn) => {
+  return typeof curProps === 'function' ? curProps() : curProps
 }
 
 const getField = (configItem: FormItemRawConfig<T>, defaultValue?: unknown) => {
