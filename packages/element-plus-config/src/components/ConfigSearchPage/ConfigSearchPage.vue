@@ -35,7 +35,7 @@ const FilterSearchComp = defineComponent({
   },
 })
 const getDefaultPaginationModel = () => {
-  const { currentPage = 1, pageSize = 10, total = 0 } = paginationConfig.paginationProps ?? {};
+  const { currentPage = 1, pageSize = 10, total = 0 } = paginationConfig.paginationProps ?? {}
   return { currentPage, pageSize, total }
 }
 
@@ -54,8 +54,8 @@ const listFilterConfig = computed(() =>
           ...res.colProps,
         },
         isVisible: (model) => {
-          return it.isVisible ? it.isVisible(model) && !it.onlyInDrawer : true
-        }
+          return it.isVisible ? it.isVisible(model) && !it.onlyInDrawer : !it.onlyInDrawer
+        },
       } as ConfigFormConfig
     }),
 )
@@ -109,21 +109,20 @@ const { visible: drawerVisible, show: showDrawer, hide: hideDrawer } = useVisibl
 const drawerFilterModel = ref(cloneDeep(listFilterModel.value))
 const drawerFilterRef = useTemplateRef('drawerFilterRef')
 const drawerFilterConfig = computed(() =>
-  filterConfig
-    .map((it) => {
-      const res = omit(it, ['onlyInDrawer', 'onlyInList'])
+  filterConfig.map((it) => {
+    const res = omit(it, ['onlyInDrawer', 'onlyInList'])
 
-      return {
-        ...res,
-        colProps: {
-          span: 24,
-          ...res.colProps,
-        },
-        isVisible: (model) => {
-          return it.isVisible ? it.isVisible(model) && !it.onlyInList : true
-        }
-      } as ConfigFormConfig
-    }),
+    return {
+      ...res,
+      colProps: {
+        span: 24,
+        ...res.colProps,
+      },
+      isVisible: (model) => {
+        return it.isVisible ? it.isVisible(model) && !it.onlyInList : !it.onlyInList
+      },
+    } as ConfigFormConfig
+  }),
 )
 
 const drawerOpenHandle = () => {
