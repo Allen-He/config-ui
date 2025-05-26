@@ -1,21 +1,5 @@
 #!/bin/bash
 
-# 定义函数获取版本号
-get_version() {
-    # 假设版本号存储在 package.json 文件中，通过 jq 工具解析
-    if command -v jq &> /dev/null; then
-        version=$(jq -r '.version' package.json)
-        if [ -z "$version" ]; then
-            echo "无法从 package.json 中获取版本号，请检查文件是否存在或格式是否正确。"
-            exit 1
-        fi
-    else
-        echo "jq 工具未安装，请先安装 jq。"
-        exit 1
-    fi
-    echo "$version"
-}
-
 # 定义函数获取所有子包的版本变更信息
 get_changed_versions() {
     local changes=""
@@ -45,9 +29,6 @@ get_changed_versions() {
     
     echo "$changes"
 }
-
-# 获取版本号
-version=$(get_version)
 
 # 执行 pnpm build
 echo "执行 pnpm build..."
