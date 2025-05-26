@@ -2,6 +2,6 @@
 
 ## 示例1
 
-::: demo
+::: demo category="ant-design-vue"
 ./demos/Demo1.vue
 :::

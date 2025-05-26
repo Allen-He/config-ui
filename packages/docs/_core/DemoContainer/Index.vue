@@ -4,12 +4,14 @@ import { isClient, useClipboard, useToggle } from '@vueuse/core'
 import { ElMessage, EVENT_CODE } from 'element-plus'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useDemoPlayground } from '../DemoPlayground/hooks'
+import type { EnumUICategory } from '../utils/type'
 
 const props = defineProps<{
   source: string
   path: string
   rawSource: string
   description: string
+  category: EnumUICategory
 }>()
 
 const descriptionDecoded = computed(() => decodeURIComponent(props.description))
@@ -27,7 +29,7 @@ const onFullscreenClick = () => {
 
 const onPlaygroundClick = () => {
   if (!isClient) return
-  const { link } = useDemoPlayground(props.rawSource)
+  const { link } = useDemoPlayground(props.rawSource, props.category)
   window.open(link)
 }
 

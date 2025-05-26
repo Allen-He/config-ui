@@ -2,6 +2,6 @@
 
 ## 示例1
 
-::: demo
+::: demo category="element-plus"
 ./demos/Demo1.vue
 :::

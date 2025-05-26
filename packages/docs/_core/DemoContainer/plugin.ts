@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import type { MarkdownRenderer } from 'vitepress'
-import { injectImportScript } from './helper'
+import { injectImportScript, parseMarkdownContainerInfo } from './helper'
 
 interface ContainerOpts {
   marker?: string | undefined
@@ -16,9 +16,11 @@ export function createDemoContainer(md: MarkdownRenderer): ContainerOpts {
     },
 
     render(tokens, idx, options, env, self) {
-      const m = tokens[idx].info.trim().match(/^demo\s*(.*)$/)
+      const { containerProps = {} } = parseMarkdownContainerInfo(tokens[idx].info) || {}
+
       if (tokens[idx].nesting === 1 /* means the tag is opening */) {
-        const description = m && m.length > 1 ? m[1] : ''
+        const category = containerProps.category || ''
+        const description = containerProps.description || ''
         const sourceFileToken = tokens[idx + 2]
         const sourceFile = sourceFileToken.children?.[0].content ?? ''
         const sourceFilePath = path.resolve(path.dirname(env.path), sourceFile)
@@ -39,6 +41,7 @@ export function createDemoContainer(md: MarkdownRenderer): ContainerOpts {
             path="${sourceFile}"
             raw-source="${encodeURIComponent(source)}"
             description="${encodeURIComponent(md.render(description))}"
+            category="${category}"
           >
             <template #source><${componentName} /></template>`
       } else {

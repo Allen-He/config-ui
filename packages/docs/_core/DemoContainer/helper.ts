@@ -50,3 +50,27 @@ const insertSetupScript = (scriptBlock: any, importCode: string) => {
   if (scriptBlock.content.includes(importCode)) return
   scriptBlock.content = scriptBlock.content.replace(scriptTsSetupRegx, `<script setup>\n${importCode}\n`)
 }
+
+interface ContainerInfo {
+  containerName: string; // 容器名称，例如 'demo'
+  containerProps: Record<string, string>; // 容器属性，例如 { category: 'element-plus', description: 'hhh' }
+}
+
+/**
+ * 解析 Markdown 容器的属性
+ * @param info Markdown容器的信息字符串，例如：'demo category="element-plus" description="hhh"'
+ */
+export const parseMarkdownContainerInfo = (info: string): ContainerInfo | undefined => {
+  // 匹配容器名称
+  const containerMatch = info.trim().match(/^(\w+)(.*)$/)
+  if (!containerMatch) return;
+  const [, containerName, rest] = containerMatch
+  // 匹配容器属性
+  const attrMatches = rest.trim().matchAll(/(\w+)="([^"]*)"/g)
+  const containerProps: Record<string, string> = {}
+  for (const match of attrMatches) {
+    const [, key, value] = match
+    containerProps[key] = value
+  }
+  return { containerName, containerProps }
+}

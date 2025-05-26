@@ -2,11 +2,15 @@
 import { watchEffect, ref, computed, defineAsyncComponent } from 'vue'
 import { Repl, useStore, useVueImportMap } from '@vue/repl'
 import type { ImportMap, OutputModes, ReplProps } from '@vue/repl'
+import { EnumUICategory } from '../utils/type';
+import { getImportsByCategory, getPreviewOptionsByCategory } from './helper';
 
 const Codemirror = defineAsyncComponent(() => import('@vue/repl/codemirror-editor'))
 
 // retrieve some configuration options from the URL
 const query = new URLSearchParams(location.search)
+
+const category = ref(query.get('category') as EnumUICategory)
 
 const { importMap, vueVersion, productionMode } = useVueImportMap({
   vueVersion: 'latest',
@@ -19,57 +23,14 @@ const builtinImportMap = computed<ImportMap>(() => {
   return {
     imports: {
       ...imports,
-      'ant-design-vue': 'https://fastly.jsdelivr.net/npm/ant-design-vue@latest/dist/antd.esm.min.js',
-      'ant-design-vue/': 'https://fastly.jsdelivr.net/npm/ant-design-vue@latest/',
-      '@ant-design/icons-vue': 'https://fastly.jsdelivr.net/npm/@ant-design/icons-vue@latest/lib/index.min.js',
-
-      'element-plus': 'https://fastly.jsdelivr.net/npm/element-plus@latest/dist/index.full.min.mjs',
-      'element-plus/': 'https://fastly.jsdelivr.net/npm/element-plus@latest/',
-      '@element-plus/icons-vue': 'https://fastly.jsdelivr.net/npm/@element-plus/icons-vue@2/dist/index.min.js',
-
-      '@config-ui/element-plus-config': 'https://fastly.jsdelivr.net/npm/@config-ui/element-plus-config@latest/dist/es/index.min.js',
-      '@config-ui/element-plus-config/': 'https://fastly.jsdelivr.net/npm/@config-ui/element-plus-config@latest/',
-
-      '@config-ui/ant-design-vue-config': 'https://fastly.jsdelivr.net/npm/@config-ui/ant-design-vue-config@latest/dist/es/index.min.js',
-      '@config-ui/ant-design-vue-config/': 'https://fastly.jsdelivr.net/npm/@config-ui/ant-design-vue-config@latest/',
-
-      '@config-ui/shared': 'https://fastly.jsdelivr.net/npm/@config-ui/shared@latest/dist/es/index.min.js',
-      '@config-ui/shared/': 'https://fastly.jsdelivr.net/npm/@config-ui/shared@latest/',
+      ...getImportsByCategory(category.value)
     },
     scopes: {
       ...scopes,
     },
   }
 })
-
-const previewOptions = ref<ReplProps['previewOptions']>({
-  headHTML: `
-    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/ant-design-vue@latest/dist/reset.css">
-    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@config-ui/ant-design-vue-config@latest/dist/es/style.css">
-
-    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/element-plus@latest/dist/index.css">
-    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@config-ui/element-plus-config@latest/dist/es/style.css">
-
-    <style>
-      #app {
-        padding: 10px;
-      }
-    </style>
-  `,
-  customCode: {
-    importCode: `
-      import { createApp } from 'vue'
-      import * as Antd from 'ant-design-vue'
-      import ElementPlus from 'element-plus'
-    `,
-    useCode: `
-      for (const AntdComp in Antd) {
-        app.component(AntdComp, Antd[AntdComp]);
-      }
-      app.use(ElementPlus)
-    `
-  }
-})
+const previewOptions = computed<ReplProps['previewOptions']>(() => getPreviewOptionsByCategory(category.value))
 
 const store = useStore(
   {

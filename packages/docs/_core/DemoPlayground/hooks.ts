@@ -1,4 +1,5 @@
 import { isDark } from '../utils/dark'
+import type { EnumUICategory } from '../utils/type'
 
 export type Link = {
   text: string
@@ -9,7 +10,7 @@ export type Link = {
 
 const MAIN_FILE_NAME = 'App.vue'
 
-export const useDemoPlayground = (source: string) => {
+export const useDemoPlayground = (source: string, category: EnumUICategory) => {
   const code = source ? decodeURIComponent(source) : source
   const originCode = {
     [MAIN_FILE_NAME]: code,
@@ -17,10 +18,10 @@ export const useDemoPlayground = (source: string) => {
 
   const encoded = code ? btoa(unescape(encodeURIComponent(JSON.stringify(originCode)))) : ''
 
-  let link = `${location.origin}/config-ui/playground/`
+  let link = `${location.origin}/config-ui/playground/?category=${category}`
 
   if (isDark.value) {
-    link = `${link}?theme=dark`
+    link = `${link}&theme=dark`
   }
 
   if (code) {
