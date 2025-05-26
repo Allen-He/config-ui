@@ -10,8 +10,8 @@ const query = new URLSearchParams(location.search)
 
 const { importMap, vueVersion, productionMode } = useVueImportMap({
   vueVersion: 'latest',
-  runtimeDev: 'https://cdn.jsdelivr.net/npm/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.js',
-  runtimeProd: 'https://cdn.jsdelivr.net/npm/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.prod.js'
+  runtimeDev: 'https://fastly.jsdelivr.net/npm/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.js',
+  runtimeProd: 'https://fastly.jsdelivr.net/npm/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.prod.js'
 })
 
 const builtinImportMap = computed<ImportMap>(() => {
@@ -19,22 +19,22 @@ const builtinImportMap = computed<ImportMap>(() => {
   return {
     imports: {
       ...imports,
-      'ant-design-vue': 'https://cdn.jsdelivr.net/npm/ant-design-vue@latest/dist/antd.esm.min.js',
-      'ant-design-vue/': 'https://cdn.jsdelivr.net/npm/ant-design-vue@latest/',
-      '@ant-design/icons-vue': 'https://cdn.jsdelivr.net/npm/@ant-design/icons-vue@latest/lib/index.min.js',
+      'ant-design-vue': 'https://fastly.jsdelivr.net/npm/ant-design-vue@latest/dist/antd.esm.min.js',
+      'ant-design-vue/': 'https://fastly.jsdelivr.net/npm/ant-design-vue@latest/',
+      '@ant-design/icons-vue': 'https://fastly.jsdelivr.net/npm/@ant-design/icons-vue@latest/lib/index.min.js',
 
-      'element-plus': 'https://cdn.jsdelivr.net/npm/element-plus@latest/dist/index.full.min.mjs',
-      'element-plus/': 'https://cdn.jsdelivr.net/npm/element-plus@latest/',
-      '@element-plus/icons-vue': 'https://cdn.jsdelivr.net/npm/@element-plus/icons-vue@2/dist/index.min.js',
+      'element-plus': 'https://fastly.jsdelivr.net/npm/element-plus@latest/dist/index.full.min.mjs',
+      'element-plus/': 'https://fastly.jsdelivr.net/npm/element-plus@latest/',
+      '@element-plus/icons-vue': 'https://fastly.jsdelivr.net/npm/@element-plus/icons-vue@2/dist/index.min.js',
 
-      '@config-ui/element-plus-config': 'https://cdn.jsdelivr.net/npm/@config-ui/element-plus-config@latest/dist/es/index.min.js',
-      '@config-ui/element-plus-config/': 'https://cdn.jsdelivr.net/npm/@config-ui/element-plus-config@latest/',
+      '@config-ui/element-plus-config': 'https://fastly.jsdelivr.net/npm/@config-ui/element-plus-config@latest/dist/es/index.min.js',
+      '@config-ui/element-plus-config/': 'https://fastly.jsdelivr.net/npm/@config-ui/element-plus-config@latest/',
 
-      '@config-ui/ant-design-vue-config': 'https://cdn.jsdelivr.net/npm/@config-ui/ant-design-vue-config@latest/dist/es/index.min.js',
-      '@config-ui/ant-design-vue-config/': 'https://cdn.jsdelivr.net/npm/@config-ui/ant-design-vue-config@latest/',
+      '@config-ui/ant-design-vue-config': 'https://fastly.jsdelivr.net/npm/@config-ui/ant-design-vue-config@latest/dist/es/index.min.js',
+      '@config-ui/ant-design-vue-config/': 'https://fastly.jsdelivr.net/npm/@config-ui/ant-design-vue-config@latest/',
 
-      '@config-ui/shared': 'https://cdn.jsdelivr.net/npm/@config-ui/shared@latest/dist/es/index.min.js',
-      '@config-ui/shared/': 'https://cdn.jsdelivr.net/npm/@config-ui/shared@latest/',
+      '@config-ui/shared': 'https://fastly.jsdelivr.net/npm/@config-ui/shared@latest/dist/es/index.min.js',
+      '@config-ui/shared/': 'https://fastly.jsdelivr.net/npm/@config-ui/shared@latest/',
     },
     scopes: {
       ...scopes,
@@ -44,11 +44,11 @@ const builtinImportMap = computed<ImportMap>(() => {
 
 const previewOptions = ref<ReplProps['previewOptions']>({
   headHTML: `
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@latest/dist/reset.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@config-ui/ant-design-vue-config@latest/dist/es/style.css">
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/ant-design-vue@latest/dist/reset.css">
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@config-ui/ant-design-vue-config@latest/dist/es/style.css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-plus@latest/dist/index.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@config-ui/element-plus-config@latest/dist/es/style.css">
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/element-plus@latest/dist/index.css">
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@config-ui/element-plus-config@latest/dist/es/style.css">
 
     <style>
       #app {
