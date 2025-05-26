@@ -1,5 +1,11 @@
 # @config-ui/element-plus-config
 
+## 0.0.9
+
+### Patch Changes
+
+- optimize
+
 ## 0.0.8
 
 ### Patch Changes
