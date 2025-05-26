@@ -17,7 +17,8 @@
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
-    "format": "prettier --write packages/"
+    "format": "prettier --write packages/",
+    "release": "chmod +x ./scripts/release.sh && ./scripts/release.sh"
   },
   "dependencies": {
     "@config-ui/ant-design-vue-config": "workspace:*",
