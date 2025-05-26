@@ -53,7 +53,9 @@ const listFilterConfig = computed(() =>
           span: 8,
           ...res.colProps,
         },
-        isVisible: () => !it.onlyInDrawer
+        isVisible: (model) => {
+          return it.isVisible ? it.isVisible(model) && !it.onlyInDrawer : true
+        }
       } as ConfigFormConfig
     }),
 )
@@ -117,7 +119,9 @@ const drawerFilterConfig = computed(() =>
           span: 24,
           ...res.colProps,
         },
-        isVisible: () => !it.onlyInList
+        isVisible: (model) => {
+          return it.isVisible ? it.isVisible(model) && !it.onlyInList : true
+        }
       } as ConfigFormConfig
     }),
 )
