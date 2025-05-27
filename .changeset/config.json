@@ -2,8 +2,9 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [],
-  "linked": [],
+  "fixed": [
+    ["@config-ui/ant-design-vue-config", "@config-ui/element-plus-config", "@config-ui/shared"]
+  ],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
