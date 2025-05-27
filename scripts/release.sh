@@ -33,16 +33,17 @@ print_info() {
 get_changed_versions() {
     local changes=""
     
-    # 遍历 packages 目录下的所有子包（除了 docs）
+    # 遍历 packages 目录下的所有子包
     for dir in packages/*/; do
-        # 跳过 docs 目录
-        if [[ "$dir" == "packages/docs/" ]]; then
-            continue
-        fi
-        
         # 获取包名（从 package.json）
         if [ -f "${dir}package.json" ]; then
             local pkg_name=$(jq -r '.name' "${dir}package.json")
+            
+            # 检查包是否在忽略列表中
+            if is_package_ignored "$pkg_name"; then
+                continue
+            fi
+            
             local new_version=$(jq -r '.version' "${dir}package.json")
             local old_version=$(git show HEAD:${dir}package.json 2>/dev/null | jq -r '.version')
             
@@ -57,6 +58,43 @@ get_changed_versions() {
     done
     
     echo "$changes"
+}
+
+# 获取 changeset 配置中的 ignore 列表
+get_ignored_packages() {
+    if [ -f ".changeset/config.json" ]; then
+        echo $(jq -r '.ignore[]' ".changeset/config.json" 2>/dev/null)
+    fi
+}
+
+# 检查包是否在忽略列表中
+is_package_ignored() {
+    local pkg_name="$1"
+    local ignored_packages=($(get_ignored_packages))
+    
+    for ignored in "${ignored_packages[@]}"; do
+        if [ "$pkg_name" = "$ignored" ]; then
+            return 0 # true
+        fi
+    done
+    return 1 # false
+}
+
+# 获取最新版本号
+get_latest_version() {
+    local latest_version=""
+    # 从第一个非忽略的包的 package.json 获取版本号
+    for dir in packages/*/; do
+        if [ -f "${dir}package.json" ]; then
+            local pkg_name=$(jq -r '.name' "${dir}package.json")
+            if ! is_package_ignored "$pkg_name"; then
+                latest_version=$(jq -r '.version' "${dir}package.json")
+                break
+            fi
+        fi
+    done
+    
+    echo "v$latest_version"
 }
 
 # 执行 pnpm changeset
@@ -117,13 +155,13 @@ print_step "开始构建项目"
 pnpm build
 print_success "构建完成"
 
-# 执行 pnpm changeset publish
+# 执行 pnpm changeset publish --no-git-tag
 print_step "发布包"
-pnpm changeset publish
+pnpm changeset publish --no-git-tag
 
 # 检查命令是否成功
 if [ $? -ne 0 ]; then
-    print_error "pnpm changeset publish 执行失败，脚本终止"
+    print_error "pnpm changeset publish --no-git-tag 执行失败，脚本终止"
     exit 1
 fi
 
@@ -137,13 +175,16 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# 推送 tags
-print_step "推送 tags"
-git push origin --tags
+# 获取最新版本的 tag
+latest_tag=$(get_latest_version)
+
+# 推送最新版本的 tag
+print_step "推送 tag ${latest_tag}"
+git push origin "refs/tags/${latest_tag}"
 
 # 检查命令是否成功
 if [ $? -ne 0 ]; then
-    print_error "推送 tags 失败，脚本终止"
+    print_error "推送 tag 失败，脚本终止"
     exit 1
 fi
 
