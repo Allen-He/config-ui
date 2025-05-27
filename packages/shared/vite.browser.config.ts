@@ -10,29 +10,35 @@ export default defineConfig({
       cssFileName: 'style',
     },
     emptyOutDir: true,
-    minify: false,
+    minify: true, // minify the output files
     rollupOptions: {
       external: ['vue'],
       output: [
         {
-          format: 'es',
-          dir: resolvePath('./dist/es'),
-          preserveModules: true,
-          preserveModulesRoot: 'src',
-          entryFileNames: '[name].js',
+          format: 'iife',
+          dir: resolvePath('./dist/browser'),
+          entryFileNames: 'index.iife.js',
+          name: 'Shared',
           exports: 'named',
           globals: {
             vue: 'Vue',
           },
         },
         {
-          format: 'cjs',
-          dir: resolvePath('./dist/lib'),
-          preserveModules: true,
-          preserveModulesRoot: 'src',
-          minifyInternalExports: false,
-          externalLiveBindings: false,
-          entryFileNames: '[name].js',
+          format: 'umd',
+          dir: resolvePath('./dist/browser'),
+          entryFileNames: 'index.umd.js',
+          name: 'Shared',
+          exports: 'named',
+          globals: {
+            vue: 'Vue',
+          },
+        },
+        {
+          format: 'es',
+          dir: resolvePath('./dist/browser'),
+          entryFileNames: 'index.es.js',
+          name: 'Shared',
           exports: 'named',
           globals: {
             vue: 'Vue',

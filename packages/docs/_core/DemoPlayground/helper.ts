@@ -3,7 +3,7 @@ import { EnumUICategory } from '../utils/type'
 
 export const getImportsByCategory = (category: EnumUICategory): Record<string, string> => {
   let resImports: Record<string, string> = {
-    '@config-ui/shared': 'https://unpkg.com/@config-ui/shared@latest/dist/es/index.js',
+    '@config-ui/shared': 'https://unpkg.com/@config-ui/shared@latest/dist/browser/index.es.js',
     '@config-ui/shared/': 'https://unpkg.com/@config-ui/shared@latest/',
   }
   if (category === EnumUICategory.ElementPlus) {
@@ -11,7 +11,8 @@ export const getImportsByCategory = (category: EnumUICategory): Record<string, s
       'element-plus': 'https://unpkg.com/element-plus@latest/dist/index.full.min.mjs',
       'element-plus/': 'https://unpkg.com/element-plus@latest/',
       '@element-plus/icons-vue': 'https://unpkg.com/@element-plus/icons-vue@2/dist/index.min.js',
-      '@config-ui/element-plus-config': 'https://unpkg.com/@config-ui/element-plus-config@latest/dist/es/index.js',
+      '@config-ui/element-plus-config':
+        'https://unpkg.com/@config-ui/element-plus-config@latest/dist/browser/index.es.js',
       '@config-ui/element-plus-config/': 'https://unpkg.com/@config-ui/element-plus-config@latest/',
       ...resImports,
     }
@@ -21,7 +22,8 @@ export const getImportsByCategory = (category: EnumUICategory): Record<string, s
       'ant-design-vue': 'https://unpkg.com/ant-design-vue@latest/dist/antd.esm.min.js',
       'ant-design-vue/': 'https://unpkg.com/ant-design-vue@latest/',
       '@ant-design/icons-vue': 'https://unpkg.com/@ant-design/icons-vue@latest/lib/index.min.js',
-      '@config-ui/ant-design-vue-config': 'https://unpkg.com/@config-ui/ant-design-vue-config@latest/dist/es/index.js',
+      '@config-ui/ant-design-vue-config':
+        'https://unpkg.com/@config-ui/ant-design-vue-config@latest/dist/browser/index.es.js',
       '@config-ui/ant-design-vue-config/': 'https://unpkg.com/@config-ui/ant-design-vue-config@latest/',
       ...resImports,
     }

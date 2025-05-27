@@ -13,7 +13,9 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "vite build"
+    "build": "pnpm build:default && pnpm build:browser",
+    "build:default": "vite build -c ./vite.config.ts",
+    "build:browser": "vite build -c ./vite.browser.config.ts"
   },
   "dependencies": {
     "@config-ui/shared": "workspace:*",
