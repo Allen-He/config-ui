@@ -14,8 +14,8 @@ const category = ref(query.get('category') as EnumUICategory)
 
 const { importMap, vueVersion, productionMode } = useVueImportMap({
   vueVersion: 'latest',
-  runtimeDev: 'https://fastly.jsdelivr.net/npm/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.js',
-  runtimeProd: 'https://fastly.jsdelivr.net/npm/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.prod.js'
+  runtimeDev: 'https://unpkg.com/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.js',
+  runtimeProd: 'https://unpkg.com/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.prod.js'
 })
 
 const builtinImportMap = computed<ImportMap>(() => {

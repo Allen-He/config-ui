@@ -1,5 +1,36 @@
 #!/bin/bash
 
+# 定义颜色变量
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+
+# 定义输出函数
+print_step() {
+    echo
+    echo -e "${BLUE}${BOLD}┌─────────────────────────────────────────┐${NC}"
+    echo -e "${BLUE}${BOLD}│            ${1}            │${NC}"
+    echo -e "${BLUE}${BOLD}└─────────────────────────────────────────┘${NC}"
+}
+
+print_success() {
+    echo -e "${GREEN}✨ ${1} ✨${NC}"
+}
+
+print_error() {
+    echo
+    echo -e "${RED}╔═══════════════════════╗${NC}"
+    echo -e "${RED}║ ⚠️  ${1}  ║${NC}"
+    echo -e "${RED}╚═══════════════════════╝${NC}"
+}
+
+print_info() {
+    echo -e "${YELLOW}➜ ${1}${NC}"
+}
+
 # 定义函数获取所有子包的版本变更信息
 get_changed_versions() {
     local changes=""
@@ -31,26 +62,27 @@ get_changed_versions() {
 }
 
 # 执行 pnpm build
-echo "执行 pnpm build..."
+print_step "开始构建项目"
 pnpm build
+print_success "构建完成"
 
 # 执行 pnpm changeset
-echo "执行 pnpm changeset..."
+print_step "执行 changeset"
 pnpm changeset
 
 # 检查命令是否成功
 if [ $? -ne 0 ]; then
-    echo "pnpm changeset 执行失败，脚本终止。"
+    print_error "pnpm changeset 执行失败，脚本终止"
     exit 1
 fi
 
 # 执行 pnpm changeset version
-echo "执行 pnpm changeset version..."
+print_step "更新版本号"
 pnpm changeset version
 
 # 检查命令是否成功
 if [ $? -ne 0 ]; then
-    echo "pnpm changeset version 执行失败，脚本终止。"
+    print_error "pnpm changeset version 执行失败，脚本终止"
     exit 1
 fi
 
@@ -58,40 +90,43 @@ fi
 changes=$(get_changed_versions)
 
 if [ -z "$changes" ]; then
-    echo "没有检测到版本变更，使用默认的提交信息。"
+    print_info "没有检测到版本变更，使用默认的提交信息"
     commit_msg="release: version bump"
 else
+    print_info "检测到以下包的版本变更:"
+    echo -e "${YELLOW}${changes}${NC}"
     commit_msg="release: ${changes}"
 fi
 
 # 执行 git add
-echo "执行 git add..."
+print_step "暂存更改"
 git add .
 
 # 检查命令是否成功
 if [ $? -ne 0 ]; then
-    echo "git add 执行失败，脚本终止。"
+    print_error "git add 执行失败，脚本终止"
     exit 1
 fi
 
 # 执行 git commit
-echo "执行 git commit -m '${commit_msg}'..."
+print_step "提交更改"
+print_info "提交信息: ${commit_msg}"
 git commit -m "${commit_msg}"
 
 # 检查命令是否成功
 if [ $? -ne 0 ]; then
-    echo "git commit 执行失败，脚本终止。"
+    print_error "git commit 执行失败，脚本终止"
     exit 1
 fi
 
 # 执行 pnpm changeset publish
-echo "执行 pnpm changeset publish..."
+print_step "发布包"
 pnpm changeset publish
 
 # 检查命令是否成功
 if [ $? -ne 0 ]; then
-    echo "pnpm changeset publish 执行失败，脚本终止。"
+    print_error "pnpm changeset publish 执行失败，脚本终止"
     exit 1
 fi
 
-echo "所有步骤执行完成！"
+print_success "🎉 所有步骤执行完成！"
