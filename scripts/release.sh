@@ -182,7 +182,6 @@ latest_tag=$(get_latest_version)
 print_step "创建并推送 tag ${latest_tag}"
 # 先创建本地 tag
 git tag -a "${latest_tag}" -m "${commit_msg}"
-
 # 推送 tag 到远程
 git push origin "${latest_tag}"
 
