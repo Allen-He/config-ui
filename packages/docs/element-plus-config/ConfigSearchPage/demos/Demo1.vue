@@ -118,7 +118,7 @@ const filterConfig = ref<FilterConfig<FilterModel>[]>([
     componentProps: {
       placeholder: 'Activity desc',
     },
-    onlyInDrawer: true
+    onlyInDrawer: true,
   },
 ])
 const tableConfig = ref<TableConfig<TabledDataItem>>({

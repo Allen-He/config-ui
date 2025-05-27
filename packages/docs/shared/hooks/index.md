@@ -7,9 +7,9 @@
 ### 使用方法
 
 ```typescript
-import { useVisible } from '@config-ui/shared';
+import { useVisible } from '@config-ui/shared'
 
-const { visible, show, hide, toggle } = useVisible();
+const { visible, show, hide, toggle } = useVisible()
 
 // visible: 当前的可见状态 (boolean)
 // show: 显示组件的方法
@@ -34,15 +34,16 @@ const { visible, show, hide, toggle } = useVisible();
 </template>
 
 <script setup>
-import { useVisible } from '@config-ui/shared/hooks';
+import { useVisible } from '@config-ui/shared/hooks'
 
-const { visible, show, hide, toggle } = useVisible();
+const { visible, show, hide, toggle } = useVisible()
 </script>
 ```
 
 ### 参数和返回值
 
 - **参数**:
+
   - `initial` (可选): 设置 `visible` 的初始状态，类型为 `boolean`，默认为 `false`。
 
 - **返回值**:

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { HelloWorld } from '@config-ui/ant-design-vue-config'
-
 </script>
 
 <template>

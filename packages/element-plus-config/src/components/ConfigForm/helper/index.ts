@@ -29,7 +29,7 @@ import {
 } from 'element-plus'
 import type { ComponentProps, ComponentEmit, ComponentSlots } from 'vue-component-type-helpers'
 
-export type ValueOrFn<V = any> = V | (() => V);
+export type ValueOrFn<V = any> = V | (() => V)
 
 // note: "field"的优先级比"formItemProps.prop"高，且两者不能同时为空
 export interface FormItemRawConfig<T = any> {
@@ -55,7 +55,9 @@ export interface ComponentRawConfigMap<T = any> {
   // }
   ElAutocomplete: {
     component: 'ElAutocomplete'
-    componentProps?: ValueOrFn<ComponentProps<typeof ElAutocomplete> & FormatEmits<ComponentEmit<typeof ElAutocomplete>>>
+    componentProps?: ValueOrFn<
+      ComponentProps<typeof ElAutocomplete> & FormatEmits<ComponentEmit<typeof ElAutocomplete>>
+    >
     componentSlots?: ComponentSlots<typeof ElAutocomplete>
   } & FormItemRawConfig<T>
   ElCascader: {
@@ -70,7 +72,9 @@ export interface ComponentRawConfigMap<T = any> {
   } & FormItemRawConfig<T>
   ElCheckboxGroup: {
     component: 'ElCheckboxGroup'
-    componentProps?: ValueOrFn<ComponentProps<typeof ElCheckboxGroup> & FormatEmits<ComponentEmit<typeof ElCheckboxGroup>>>
+    componentProps?: ValueOrFn<
+      ComponentProps<typeof ElCheckboxGroup> & FormatEmits<ComponentEmit<typeof ElCheckboxGroup>>
+    >
     componentSlots?: ComponentSlots<typeof ElCheckboxGroup>
   } & FormItemRawConfig<T>
   ElColorPicker: {

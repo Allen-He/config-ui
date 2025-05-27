@@ -59,11 +59,6 @@ get_changed_versions() {
     echo "$changes"
 }
 
-# 执行 pnpm build
-print_step "开始构建项目"
-pnpm build
-print_success "构建完成"
-
 # 执行 pnpm changeset
 print_step "执行 changeset"
 pnpm changeset
@@ -116,6 +111,11 @@ if [ $? -ne 0 ]; then
     print_error "git commit 执行失败，脚本终止"
     exit 1
 fi
+
+# 执行 pnpm build
+print_step "开始构建项目"
+pnpm build
+print_success "构建完成"
 
 # 执行 pnpm changeset publish
 print_step "发布包"

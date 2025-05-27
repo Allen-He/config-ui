@@ -2,8 +2,8 @@
 import { watchEffect, ref, computed, defineAsyncComponent } from 'vue'
 import { Repl, useStore, useVueImportMap } from '@vue/repl'
 import type { ImportMap, OutputModes, ReplProps } from '@vue/repl'
-import { EnumUICategory } from '../utils/type';
-import { getImportsByCategory, getPreviewOptionsByCategory } from './helper';
+import { EnumUICategory } from '../utils/type'
+import { getImportsByCategory, getPreviewOptionsByCategory } from './helper'
 
 const Codemirror = defineAsyncComponent(() => import('@vue/repl/codemirror-editor'))
 
@@ -13,9 +13,9 @@ const query = new URLSearchParams(location.search)
 const category = ref(query.get('category') as EnumUICategory)
 
 const { importMap, vueVersion, productionMode } = useVueImportMap({
-  vueVersion: 'latest',
   runtimeDev: 'https://unpkg.com/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.js',
-  runtimeProd: 'https://unpkg.com/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.prod.js'
+  runtimeProd: 'https://unpkg.com/@vue/runtime-dom@latest/dist/runtime-dom.esm-browser.prod.js',
+  serverRenderer: 'https://unpkg.com/@vue/server-renderer@latest/dist/server-renderer.esm-browser.js',
 })
 
 const builtinImportMap = computed<ImportMap>(() => {
@@ -23,7 +23,7 @@ const builtinImportMap = computed<ImportMap>(() => {
   return {
     imports: {
       ...imports,
-      ...getImportsByCategory(category.value)
+      ...getImportsByCategory(category.value),
     },
     scopes: {
       ...scopes,
@@ -50,6 +50,8 @@ const store = useStore(
 // persist state to URL hash
 watchEffect(() => history.replaceState({}, '', store.serialize()))
 
+// use a specific version of Vue
+vueVersion.value = 'latest'
 // production mode is enabled
 productionMode.value = true
 </script>

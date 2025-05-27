@@ -52,8 +52,8 @@ const insertSetupScript = (scriptBlock: any, importCode: string) => {
 }
 
 interface ContainerInfo {
-  containerName: string; // 容器名称，例如 'demo'
-  containerProps: Record<string, string>; // 容器属性，例如 { category: 'element-plus', description: 'hhh' }
+  containerName: string // 容器名称，例如 'demo'
+  containerProps: Record<string, string> // 容器属性，例如 { category: 'element-plus', description: 'hhh' }
 }
 
 /**
@@ -63,7 +63,7 @@ interface ContainerInfo {
 export const parseMarkdownContainerInfo = (info: string): ContainerInfo | undefined => {
   // 匹配容器名称
   const containerMatch = info.trim().match(/^(\w+)(.*)$/)
-  if (!containerMatch) return;
+  if (!containerMatch) return
   const [, containerName, rest] = containerMatch
   // 匹配容器属性
   const attrMatches = rest.trim().matchAll(/(\w+)="([^"]*)"/g)

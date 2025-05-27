@@ -9,15 +9,19 @@
 > 在此之前，你需要在项目中自行安装 [element-plus](https://element-plus.org/zh-CN/guide/installation.html)
 
 ::: code-group
+
 ```bash [npm]
 npm i @config-ui/element-plus-config
 ```
+
 ```bash [pnpm]
 pnpm add @config-ui/element-plus-config
 ```
+
 ```bash [yarn]
 yarn add @config-ui/element-plus-config
 ```
+
 :::
 
 ### 使用
@@ -95,7 +99,6 @@ const submitHandle = async () => {
 </style>
 ```
 
-
 ## AntDesignVueConfig
 
 基于 ant-design-vue 二次封装的配置化页面组件库
@@ -105,15 +108,19 @@ const submitHandle = async () => {
 > 在此之前，你需要在项目中自行安装 [ant-design-vue](https://www.antdv.com/docs/vue/introduce-cn#%E5%AE%89%E8%A3%85)
 
 ::: code-group
+
 ```bash [npm]
 npm i @config-ui/ant-design-vue-config
 ```
+
 ```bash [pnpm]
 pnpm add @config-ui/ant-design-vue-config
 ```
+
 ```bash [yarn]
 yarn add @config-ui/ant-design-vue-config
 ```
+
 :::
 
 ### 使用
@@ -135,16 +142,21 @@ import '@config-ui/ant-design-vue-config/dist/es/style.css'
 config-ui 业务组件库内部的一些通用工具函数、TS工具类型等
 
 ### 安装
+
 ::: code-group
+
 ```bash [npm]
 npm i @config-ui/shared
 ```
+
 ```bash [pnpm]
 pnpm add @config-ui/shared
 ```
+
 ```bash [yarn]
 yarn add @config-ui/shared
 ```
+
 :::
 
 ### 使用

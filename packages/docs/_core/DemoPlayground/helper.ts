@@ -11,8 +11,7 @@ export const getImportsByCategory = (category: EnumUICategory): Record<string, s
       'element-plus': 'https://unpkg.com/element-plus@latest/dist/index.full.min.mjs',
       'element-plus/': 'https://unpkg.com/element-plus@latest/',
       '@element-plus/icons-vue': 'https://unpkg.com/@element-plus/icons-vue@2/dist/index.min.js',
-      '@config-ui/element-plus-config':
-        'https://unpkg.com/@config-ui/element-plus-config@latest/dist/es/index.js',
+      '@config-ui/element-plus-config': 'https://unpkg.com/@config-ui/element-plus-config@latest/dist/es/index.js',
       '@config-ui/element-plus-config/': 'https://unpkg.com/@config-ui/element-plus-config@latest/',
       ...resImports,
     }
@@ -22,8 +21,7 @@ export const getImportsByCategory = (category: EnumUICategory): Record<string, s
       'ant-design-vue': 'https://unpkg.com/ant-design-vue@latest/dist/antd.esm.min.js',
       'ant-design-vue/': 'https://unpkg.com/ant-design-vue@latest/',
       '@ant-design/icons-vue': 'https://unpkg.com/@ant-design/icons-vue@latest/lib/index.min.js',
-      '@config-ui/ant-design-vue-config':
-        'https://unpkg.com/@config-ui/ant-design-vue-config@latest/dist/es/index.js',
+      '@config-ui/ant-design-vue-config': 'https://unpkg.com/@config-ui/ant-design-vue-config@latest/dist/es/index.js',
       '@config-ui/ant-design-vue-config/': 'https://unpkg.com/@config-ui/ant-design-vue-config@latest/',
       ...resImports,
     }
@@ -56,7 +54,7 @@ export const getPreviewOptionsByCategory = (category: EnumUICategory): ReplProps
   }
   if (category === EnumUICategory.AntDesignVue) {
     return {
-       headHTML: `
+      headHTML: `
         <link rel="stylesheet" href="https://unpkg.com/ant-design-vue@latest/dist/reset.css">
         <link rel="stylesheet" href="https://unpkg.com/@config-ui/ant-design-vue-config@latest/dist/es/style.css">
         <style>
