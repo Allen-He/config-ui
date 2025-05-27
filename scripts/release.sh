@@ -178,9 +178,13 @@ fi
 # 获取最新版本的 tag
 latest_tag=$(get_latest_version)
 
-# 推送最新版本的 tag
-print_step "推送 tag ${latest_tag}"
-git push origin "refs/tags/${latest_tag}"
+# 创建并推送 tag
+print_step "创建并推送 tag ${latest_tag}"
+# 先创建本地 tag
+git tag -a "${latest_tag}" -m "${commit_msg}"
+
+# 推送 tag 到远程
+git push origin "${latest_tag}"
 
 # 检查命令是否成功
 if [ $? -ne 0 ]; then
