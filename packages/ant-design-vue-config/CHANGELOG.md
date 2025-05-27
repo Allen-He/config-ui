@@ -1,5 +1,11 @@
 # @config-ui/ant-design-vue-config
 
+## 0.0.12
+
+### Patch Changes
+
+- optimize
+
 ## 0.0.11
 
 ### Patch Changes
