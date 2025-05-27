@@ -127,4 +127,24 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# 推送到远程仓库
+print_step "推送到远程仓库"
+git push origin HEAD
+
+# 检查命令是否成功
+if [ $? -ne 0 ]; then
+    print_error "git push 执行失败，脚本终止"
+    exit 1
+fi
+
+# 推送 tags
+print_step "推送 tags"
+git push origin --tags
+
+# 检查命令是否成功
+if [ $? -ne 0 ]; then
+    print_error "推送 tags 失败，脚本终止"
+    exit 1
+fi
+
 print_success "🎉 所有步骤执行完成！"
