@@ -16,6 +16,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@config-ui/shared": "workspace:*",
     "ant-design-vue": "^4.2.6"
   },
   "devDependencies": {

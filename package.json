@@ -21,10 +21,6 @@
     "release": "chmod +x ./scripts/release.sh && ./scripts/release.sh"
   },
   "dependencies": {
-    "@config-ui/ant-design-vue-config": "workspace:*",
-    "@config-ui/docs": "workspace:*",
-    "@config-ui/element-plus-config": "workspace:*",
-    "@config-ui/shared": "workspace:*",
     "@vueuse/core": "^13.1.0",
     "vue": "^3.5.13"
   },

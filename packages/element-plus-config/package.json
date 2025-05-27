@@ -16,6 +16,7 @@
     "build": "vite build"
   },
   "dependencies": {
+    "@config-ui/shared": "workspace:*",
     "element-plus": "^2.9.7",
     "lodash-es": "^4.17.21",
     "vue-component-type-helpers": "^2.2.8"
