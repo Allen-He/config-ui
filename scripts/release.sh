@@ -11,24 +11,22 @@ NC='\033[0m' # No Color
 # 定义输出函数
 print_step() {
     echo
-    echo -e "${BLUE}${BOLD}┌─────────────────────────────────────────┐${NC}"
-    echo -e "${BLUE}${BOLD}│            ${1}            │${NC}"
-    echo -e "${BLUE}${BOLD}└─────────────────────────────────────────┘${NC}"
+    echo -e "${BLUE}${BOLD}▣ ${1} ${NC}"
+    echo -e "${BLUE}${BOLD}$(printf '%.s─' $(seq 1 50))${NC}"
 }
 
 print_success() {
-    echo -e "${GREEN}✨ ${1} ✨${NC}"
+    echo -e "${GREEN}✓ ${1}${NC}"
 }
 
 print_error() {
     echo
-    echo -e "${RED}╔═══════════════════════╗${NC}"
-    echo -e "${RED}║ ⚠️  ${1}  ║${NC}"
-    echo -e "${RED}╚═══════════════════════╝${NC}"
+    echo -e "${RED}✕ ${1}${NC}"
+    echo -e "${RED}$(printf '%.s─' $(seq 1 30))${NC}"
 }
 
 print_info() {
-    echo -e "${YELLOW}➜ ${1}${NC}"
+    echo -e "${YELLOW}○ ${1}${NC}"
 }
 
 # 定义函数获取所有子包的版本变更信息
