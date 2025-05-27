@@ -1,5 +1,13 @@
 # @config-ui/ant-design-vue-config
 
+## 0.0.14
+
+### Patch Changes
+
+- optimize
+- Updated dependencies
+  - @config-ui/shared@0.0.14
+
 ## 0.0.13
 
 ### Patch Changes
