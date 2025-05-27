@@ -1,5 +1,13 @@
 # @config-ui/element-plus-config
 
+## 0.0.15
+
+### Patch Changes
+
+- optimize
+- Updated dependencies
+  - @config-ui/shared@0.0.15
+
 ## 0.0.14
 
 ### Patch Changes
