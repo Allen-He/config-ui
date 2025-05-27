@@ -1,5 +1,11 @@
 # @config-ui/shared
 
+## 0.0.18
+
+### Patch Changes
+
+- optimize
+
 ## 0.0.17
 
 ### Patch Changes
