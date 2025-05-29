@@ -8,6 +8,7 @@ export default defineConfig({
   description: '灵活易用的业务组件库',
   base: '/config-ui/',
   head: [['link', { rel: 'icon', href: '/config-ui/logo.png' }]],
+  ignoreDeadLinks: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: { src: '/logo.svg', width: 24, height: 24 },
