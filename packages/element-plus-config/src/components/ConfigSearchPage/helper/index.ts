@@ -47,4 +47,5 @@ export type SearchPageConfig<F = any, T = any> = {
   tableV2Config?: TableV2Config
   paginationConfig?: PaginationConfig
   request?: RequestFn<F, T>
+  requestImmediate?: boolean
 }

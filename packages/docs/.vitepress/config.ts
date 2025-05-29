@@ -53,6 +53,10 @@ export default defineConfig({
       },
     ],
 
+    outline: {
+      level: 'deep',
+    },
+
     socialLinks: [
       {
         icon: 'juejin',

@@ -208,6 +208,7 @@ const request: RequestFn<FilterModel, TabledDataItem> = async (params) => {
     :table-config="tableConfig"
     :pagination-config="paginationConfig"
     :request="request"
+    :request-immediate="false"
   />
 </template>
 

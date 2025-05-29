@@ -14,6 +14,7 @@ const {
   tableV2Config,
   paginationConfig = {},
   request,
+  requestImmediate = true,
 } = defineProps<SearchPageConfig<F, T>>()
 
 const FilterSearchComp = defineComponent({
@@ -94,6 +95,7 @@ const resetHandle = () => {
   paginationModel.value = getDefaultPaginationModel()
   searchHandle()
 }
+requestImmediate && searchHandle()
 
 const handleCurrentChange = (val: number) => {
   console.log(`current page: ${val}`)
