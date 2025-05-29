@@ -8,25 +8,34 @@ RED='\033[0;31m'
 BOLD='\033[1m'
 NC='\033[0m' # No Color
 
-# 定义输出函数
+# 通用打印格式化函数
+print_format() {
+    local color=$1
+    local symbol=$2
+    local message=$3
+    echo
+    echo -e "${color}${BOLD}${symbol} ${message} ${NC}"
+    echo -e "${color}${BOLD}$(printf '%.s─' $(seq 1 50))${NC}"
+}
+
+# 步骤信息
 print_step() {
-    echo
-    echo -e "${BLUE}${BOLD}▣ ${1} ${NC}"
-    echo -e "${BLUE}${BOLD}$(printf '%.s─' $(seq 1 50))${NC}"
+    print_format "${BLUE}" "▣" "$1"
 }
 
+# 成功信息
 print_success() {
-    echo -e "${GREEN}✓ ${1}${NC}"
+    print_format "${GREEN}" "✓" "$1"
 }
 
+# 错误信息
 print_error() {
-    echo
-    echo -e "${RED}✕ ${1}${NC}"
-    echo -e "${RED}$(printf '%.s─' $(seq 1 30))${NC}"
+    print_format "${RED}" "✕" "$1"
 }
 
+# 普通信息
 print_info() {
-    echo -e "${YELLOW}○ ${1}${NC}"
+    print_format "${YELLOW}" "○" "$1"
 }
 
 # 定义函数获取所有子包的版本变更信息
